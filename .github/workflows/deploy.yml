@@ -19,9 +19,10 @@ jobs:
           host: ${{ secrets.DEPLOY_HOST }}
           username: ${{ secrets.DEPLOY_USER }}
           key: ${{ secrets.DEPLOY_KEY }}
-          source: "./*"          # ВСЕ файлы в корне репозитория
+          source: "./*"
           target: ${{ secrets.DEPLOY_TARGET }}
-          rm: true               # очищает старые файлы
-          overwrite: true        # перезаписывает существующие
-          strip_components: 0    # сохраняет структуру
+          rm: true
+          overwrite: true
+          strip_components: 0
           debug: true
+          exclude: ".git,.github"   # вот тут исключаем папки, которые ломают tar
