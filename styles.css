@@ -1,0 +1,69 @@
+body {
+    font-family: Arial, sans-serif;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.container {
+    text-align: center;
+    padding: 50px;
+}
+
+/* Light theme */
+body.light-theme {
+    background-color: #ffffff;
+    color: #333333;
+}
+
+/* Dark theme */
+body.dark-theme {
+    background-color: #333333;
+    color: #ffffff;
+}
+
+/* Set default to dark theme */
+body {
+    background-color: #333333;
+    color: #ffffff;
+}
+
+button {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+}
+
+button#language-toggle {
+    background-color: #FFA500; /* Orange color */
+    color: #ffffff;
+}
+
+.top-controls {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    gap: 10px;
+}
+
+.top-controls button {
+    background-color: #FFA500; /* Orange color */
+    color: #ffffff;
+    padding: 10px 15px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Special styling for theme toggle */
+button#theme-toggle {
+    font-size: 18px;
+    padding: 10px 15px;
+    background-color: #FFA500;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}

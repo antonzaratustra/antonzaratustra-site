@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anton Zaratustra</title>
+    <style>
+        :root {
+            --bg-dark: #0a0a0f;
+            --bg-light: #f0f0f5;
+            --fg-dark: #0a0a0f;
+            --fg-light: #f0f0f5;
+            --color-background: #0a0a0f;
+            --color-background-secondary: #1a1a2e;
+            --color-text-default: #e6e6f0;
+        }
+        * { box-sizing: border-box; }
+        html, body {
+            margin: 0;
+            height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+        }
+        
+        /* Light theme */
+        html.light {
+            --color-background: #f0f0f5;
+            --color-background-secondary: #d0d0e0;
+            --color-text-default: #333333;
+        }
+        
+        /* Dark theme */
+        html.dark {
+            --color-background: #0a0a0f;
+            --color-background-secondary: #1a1a2e;
+            --color-text-default: #e6e6f0;
+        }
+        
+        body {
+            background-color: var(--color-background);
+            color: var(--fg-dark);
+        }
+        
+        #wrap { position: fixed; inset: 0; display: grid; grid-template-rows: auto 1fr; }
+        header {
+            padding: 10px 14px;
+            display: flex;
+            gap: 14px;
+            align-items: center;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.04), rgba(0,0,0,0));
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            z-index: 2;
+        }
+        header h1 { margin: 0; font-size: 14px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; opacity: .8; }
+        #c { width: 100vw; height: 100vh; display: block; }
+        
+        /* Added styles for theme and language toggle */
+        .top-controls {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+        
+        /* ThemeToggle */
+        .ThemeToggle {
+            appearance: none;
+            width: 62px;
+            height: 32px;
+            display: inline-block;
+            position: relative;
+            border-radius: 50px;
+            overflow: hidden;
+            outline: none;
+            border: none;
+            cursor: pointer;
+            background: var(--color-background-secondary);
+            transition: background-color ease 0.3s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        .ThemeToggle::before {
+            content: "🌙";
+            display: block;
+            position: absolute;
+            z-index: 2;
+            width: 24px;
+            height: 24px;
+            background: var(--color-background);
+            left: 4px;
+            top: 4px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 24px;
+            font-size: 14px;
+            transition: all cubic-bezier(0.3, 1.5, 0.7, 1) 0.3s;
+        }
+
+        .ThemeToggle:checked {
+            background-color: var(--color-background-secondary);
+            border-color: var(--color-background);
+        }
+
+        .ThemeToggle:checked::before {
+            left: 32px;
+            content: "☀️";
+            background: var(--color-background);
+        }
+        
+        /* Language Toggle */
+        .LanguageToggle {
+            appearance: none;
+            width: 62px;
+            height: 32px;
+            display: inline-block;
+            position: relative;
+            border-radius: 50px;
+            overflow: hidden;
+            outline: none;
+            border: none;
+            cursor: pointer;
+            background: #FFA500; /* Orange background */
+            transition: background-color ease 0.3s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            color: #333; /* Dark text for better contrast */
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .LanguageToggle::before {
+            content: "EN";
+            display: block;
+            position: absolute;
+            z-index: 2;
+            width: 24px;
+            height: 24px;
+            background: white;
+            left: 4px;
+            top: 4px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 24px;
+            font-size: 12px;
+            color: #333; /* Dark text for better contrast */
+            transition: all cubic-bezier(0.3, 1.5, 0.7, 1) 0.3s;
+        }
+
+        .LanguageToggle:checked {
+            background-color: #FFA500; /* Orange background */
+        }
+
+        .LanguageToggle:checked::before {
+            left: 32px;
+            content: "RU";
+            background: white;
+            color: #333; /* Dark text for better contrast */
+        }
+        
+        /* Center content styles - no background layer */
+        .center-content {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 5;
+            padding: 20px;
+            width: 90%;
+            max-width: 800px;
+        }
+        
+        .center-content h1 {
+            margin: 0 0 20px 0;
+            font-size: 6rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+        }
+        
+        .center-content .matrix-text {
+            margin: 0;
+            font-size: 6rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+        }
+        
+        /* Theme-specific text colors - matching background color */
+        body.dark-theme .center-content h1,
+        body.dark-theme .center-content .matrix-text {
+            color: var(--fg-dark);
+        }
+        
+        body.light-theme .center-content h1,
+        body.light-theme .center-content .matrix-text {
+            color: var(--fg-light);
+        }
+        
+        /* Responsive font sizes */
+        @media (max-width: 768px) {
+            .center-content h1,
+            .center-content .matrix-text {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body class="dark">
+    <div id="wrap">
+        <canvas id="c"></canvas>
+    </div>
+    
+    <!-- Top controls for theme and language toggle -->
+    <div class="top-controls">
+        <input id="themeSwitcher" class="ThemeToggle" type="checkbox">
+        <input id="languageSwitcher" class="LanguageToggle" type="checkbox">
+    </div>
+    
+    <!-- Center content - no background layer -->
+    <div class="center-content">
+        <h1 data-en="Anton Zaratustra" data-ru="Антон Заратустра">Anton Zaratustra</h1>
+        <div class="matrix-text" data-en="Matrix has you..." data-ru="Ты увяз в матрице...">Matrix has you...</div>
+    </div>
+
+    <script>
+        // Theme and language toggle functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const themeToggle = document.getElementById('themeSwitcher');
+            const languageToggle = document.getElementById('languageSwitcher');
+            const body = document.body;
+            let isDarkTheme = true;
+            let currentLang = 'en';
+
+            // Function to switch language
+            function switchLanguage(lang) {
+                currentLang = lang;
+                document.querySelectorAll('[data-en], [data-ru]').forEach(function(el) {
+                    el.textContent = el.dataset[lang];
+                });
+            }
+
+            // Function to toggle theme
+            function toggleTheme() {
+                if (isDarkTheme) {
+                    body.classList.remove('dark');
+                    body.classList.add('light');
+                    document.documentElement.classList.remove('dark');
+                    document.documentElement.classList.add('light');
+                } else {
+                    body.classList.remove('light');
+                    body.classList.add('dark');
+                    document.documentElement.classList.remove('light');
+                    document.documentElement.classList.add('dark');
+                }
+                isDarkTheme = !isDarkTheme;
+            }
+
+            themeToggle.addEventListener('change', toggleTheme);
+
+            languageToggle.addEventListener('change', function() {
+                switchLanguage(currentLang === 'en' ? 'ru' : 'en');
+            });
+
+            // Initial language setup
+            switchLanguage('en');
+        });
+
+        // ASCII Phoenix animation code
+        (() => {
+            const canvas = document.getElementById('c');
+            const ctx = canvas.getContext('2d');
+            const body = document.body;
+            let paused = false;
+
+            const RAMP = ' .,:;i1tfLC08@#'; // ASCII символы
+            let charW = 10, charH = 14, cols = 0, rows = 0;
+            let t0 = performance.now();
+            let loopLen = 9000;
+            let baseHue = 18, hueShift = 0, speedMul = 1.0;
+
+            let field, nextField, phoenixMask, phoenixDetailMask;
+            const DPR = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+
+            // Function to get current theme colors
+            function getThemeColors() {
+                if (body.classList.contains('light')) {
+                    return {
+                        bg: '#f0f0f5',
+                        fg: '#f0f0f5'
+                    };
+                } else {
+                    return {
+                        bg: '#0a0a0f',
+                        fg: '#0a0a0f'
+                    };
+                }
+            }
+
+            function resize() {
+                canvas.width = Math.floor(window.innerWidth * DPR);
+                canvas.height = Math.floor(window.innerHeight * DPR);
+                charW = 10 * DPR;
+                charH = Math.floor(charW * 1.35);
+                cols = Math.floor(canvas.width / charW);
+                rows = Math.floor(canvas.height / charH);
+                field = new Float32Array(cols * rows).fill(0);
+                nextField = new Float32Array(cols * rows).fill(0);
+                phoenixMask = new Float32Array(cols * rows).fill(0);
+                phoenixDetailMask = new Float32Array(cols * rows).fill(0);
+                buildPhoenixMask();
+            }
+            
+            function idx(x,y){ return y*cols + x; }
+            
+            function hash(x, y) {
+                let n = x * 374761393 + y * 668265263;
+                n = (n ^ (n >> 13)) * 1274126177;
+                return ((n ^ (n >> 16)) >>> 0) / 4294967295;
+            }
+            
+            function smoothNoise(x, y) {
+                const xi = Math.floor(x), yi = Math.floor(y);
+                const xf = x - xi, yf = y - yi;
+                const n00 = hash(xi, yi), n10 = hash(xi+1, yi);
+                const n01 = hash(xi, yi+1), n11 = hash(xi+1, yi+1);
+                const sx = xf*xf*(3-2*xf), sy = yf*yf*(3-2*yf);
+                const nx0 = n00*(1-sx) + n10*sx;
+                const nx1 = n01*(1-sx) + n11*sx;
+                return nx0*(1-sy) + nx1*sy;
+            }
+            
+            function fbm(x, y, oct=4) {
+                let a=0, amp=0.5, freq=1.0;
+                for (let i=0;i<oct;i++) {
+                    a += smoothNoise(x*freq, y*freq) * amp;
+                    freq *= 2.01; amp *= 0.55;
+                }
+                return a;
+            }
+            
+            function buildPhoenixMask() {
+                phoenixMask.fill(0);
+                phoenixDetailMask.fill(0);
+                const cx = cols/2, cy = rows*0.62;
+                const scale = Math.min(cols, rows) * 0.45;
+                for (let y=0; y<rows; y++) {
+                    for (let x=0; x<cols; x++) {
+                        const nx = (x - cx) / scale;
+                        const ny = (y - cy) / scale;
+                        const r = Math.hypot(nx*0.9, ny*1.2);
+                        const body = Math.max(0, 1 - r*r*1.8 - (ny*0.6+0.15));
+                        const wingL = Math.max(0, 1 - (Math.hypot((nx+0.9)*1.1, (ny+0.05)*1.9)*1.6));
+                        const wingR = Math.max(0, 1 - (Math.hypot((nx-0.9)*1.1, (ny+0.05)*1.9)*1.6));
+                        const tail = Math.max(0, 1 - Math.hypot(nx*0.7, (ny-0.7)*2.2)*1.8);
+                        const head = Math.max(0, 1 - Math.hypot((nx)*2.0, (ny+0.25)*3.4)*2.2);
+                        const beak = Math.max(0, 1 - Math.hypot((nx-0.18)*8.5, (ny+0.23)*10.0)*1.3);
+                        let m = Math.max(body*1.05, wingL*0.95, wingR*0.95, tail*0.8, head*1.1, beak*0.8);
+                        m = Math.min(1, Math.max(0, m));
+                        const d = Math.pow(fbm(nx*3+5.4, ny*3-2.7, 3), 1.6);
+                        const feather = m * (0.35 + 0.65*d);
+                        phoenixMask[idx(x,y)] = m;
+                        phoenixDetailMask[idx(x,y)] = feather;
+                    }
+                }
+            }
+            
+            function hsvToRgb(h, s, v) {
+                h = (h%360+360)%360;
+                const c = v * s, x = c * (1 - Math.abs(((h/60)%2)-1)), m = v - c;
+                let r=0,g=0,b=0;
+                if (0<=h && h<60){ r=c; g=x; }
+                else if (60<=h && h<120){ r=x; g=c; }
+                else if (120<=h && h<180){ g=c; b=x; }
+                else if (180<=h && h<240){ g=x; b=c; }
+                else if (240<=h && h<300){ r=x; b=c; }
+                else { r=c; b=x; }
+                return [(r+m)*255, (g+m)*255, (b+m)*255];
+            }
+            
+            function draw(time) {
+                if (paused) { requestAnimationFrame(draw); return; }
+                
+                // Get current theme colors
+                const colors = getThemeColors();
+                
+                const t = (time - t0) * speedMul;
+                const phase = (t % loopLen) / loopLen;
+                for (let x=0; x<cols; x++) {
+                    const n = fbm(x*0.07, t*0.0009, 3);
+                    field[idx(x, rows-1)] = 0.6 + 0.4*n;
+                }
+                for (let y=0; y<rows-1; y++) {
+                    for (let x=0; x<cols; x++) {
+                        const j = Math.floor((smoothNoise(x*0.17, (t*0.001 + y*0.05))*2-1)*2);
+                        const sx = Math.min(cols-1, Math.max(0, x + j));
+                        const sy = Math.min(rows-1, y+1);
+                        const v = field[idx(sx, sy)];
+                        const l = field[idx(Math.max(0,x-1), sy)];
+                        const r = field[idx(Math.min(cols-1,x+1), sy)];
+                        nextField[idx(x,y)] = (v*2 + l + r) * 0.25 * 0.98;
+                    }
+                }
+                [field, nextField] = [nextField, field];
+                let birth=0, flap=0, dissolve=0;
+                if (phase < 0.35) birth = phase/0.35;
+                else if (phase < 0.65) birth = 1;
+                else if (phase < 0.85) { birth = 1; flap = (phase-0.65)/0.20; }
+                else { birth = 1; dissolve = (phase-0.85)/0.15; }
+                for (let y=0; y<rows; y++) {
+                    for (let x=0; x<cols; x++) {
+                        const m = phoenixMask[idx(x,y)];
+                        if (m <= 0.001) continue;
+                        const fdet = phoenixDetailMask[idx(x,y)];
+                        const wingWave = Math.sin((y*0.25 + t*0.006) + (x-cols/2)*0.02) * 0.5 + 0.5;
+                        const flapAmp = 0.25 + 0.55*flap;
+                        const energy = (0.35 + 0.65*fdet) * birth * (1.0 - dissolve*0.85);
+                        const extra = energy * (0.7 + 0.3*wingWave*flapAmp);
+                        field[idx(x,y)] = Math.min(1, field[idx(x,y)] + extra*0.7);
+                    }
+                }
+                if (dissolve > 0) {
+                    const k = 0.5 + 0.5*dissolve;
+                    for (let y=0; y<rows; y++) {
+                        const cool = k * (y/rows) * 0.35;
+                        for (let x=0; x<cols; x++) {
+                            field[idx(x,y)] = Math.max(0, field[idx(x,y)] - cool);
+                        }
+                    }
+                }
+                
+                // Clear canvas with theme background color
+                ctx.fillStyle = colors.bg;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                ctx.save();
+                ctx.translate((canvas.width - cols*charW)/2, (canvas.height - rows*charH)/2);
+                ctx.font = `${Math.floor(charH*0.95)}px monospace`;
+                ctx.textBaseline = 'top';
+                const hueBase = baseHue + hueShift + (Math.sin(t*0.0003)*30);
+                for (let y=0; y<rows; y++) {
+                    for (let x=0; x<cols; x++) {
+                        const v = field[idx(x,y)];
+                        const rampIndex = Math.min(RAMP.length-1, Math.max(0, Math.floor(v * (RAMP.length-1))));
+                        const ch = RAMP[rampIndex];
+                        if (ch === ' ') continue;
+                        const h = hueBase + v*40;
+                        const s = 0.75 - v*0.25;
+                        const val = 0.3 + v*0.7;
+                        const [r,g,b] = hsvToRgb(h, s, val);
+                        ctx.fillStyle = `rgba(${r|0},${g|0},${b|0},${0.85})`;
+                        ctx.fillText(ch, x*charW, y*charH);
+                    }
+                }
+                ctx.restore();
+                requestAnimationFrame(draw);
+            }
+            
+            // Watch for theme changes
+            const observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                        // Redraw with new theme colors
+                        // The draw function will automatically pick up the new colors
+                    }
+                });
+            });
+            
+            observer.observe(body, { attributes: true });
+            
+            window.addEventListener('resize', resize, {passive:true});
+            resize();
+            requestAnimationFrame(draw);
+        })();
+    </script>
+</body>
+</html>
