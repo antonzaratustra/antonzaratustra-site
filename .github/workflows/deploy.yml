@@ -19,8 +19,8 @@ jobs:
           host: ${{ secrets.DEPLOY_HOST }}
           username: ${{ secrets.DEPLOY_USER }}
           key: ${{ secrets.DEPLOY_KEY }}
-          source: "./*"           # все файлы в корне репо, кроме скрытых
+          source: "./*"          # ВСЕ файлы в репо, кроме скрытых (.git, .github)
           target: ${{ secrets.DEPLOY_TARGET }}
-          rm: true               # удалить файлы на сервере перед копированием
-          overwrite: true
+          rm: false              # НЕ удалять папку целиком
+          overwrite: true        # Перезаписать файлы, которые уже есть
           debug: true
