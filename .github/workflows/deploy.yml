@@ -19,5 +19,6 @@ jobs:
           host: ${{ secrets.DEPLOY_HOST }}
           username: ${{ secrets.DEPLOY_USER }}
           key: ${{ secrets.DEPLOY_KEY }}
-          source: "."
+          source: "."                 # берём все файлы репо
           target: ${{ secrets.DEPLOY_TARGET }}
+          exclude: ".github/**"      # **исключаем папку .github**, чтобы tar не падал
