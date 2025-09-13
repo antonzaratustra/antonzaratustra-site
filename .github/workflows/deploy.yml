@@ -8,7 +8,6 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -19,10 +18,9 @@ jobs:
           host: ${{ secrets.DEPLOY_HOST }}
           username: ${{ secrets.DEPLOY_USER }}
           key: ${{ secrets.DEPLOY_KEY }}
-          source: "./*"
+          source: "index.html phoenix.html script.js styles.css"
           target: ${{ secrets.DEPLOY_TARGET }}
           rm: true
           overwrite: true
           strip_components: 0
           debug: true
-          exclude: ".git,.github"   # вот тут исключаем папки, которые ломают tar
