@@ -19,8 +19,8 @@ jobs:
           host: ${{ secrets.DEPLOY_HOST }}
           username: ${{ secrets.DEPLOY_USER }}
           key: ${{ secrets.DEPLOY_KEY }}
-          source: "index.html phoenix.html script.js styles.css"  # <- только нужные файлы
+          source: "./*"           # все файлы в корне репо, кроме скрытых
           target: ${{ secrets.DEPLOY_TARGET }}
-          rm: true
+          rm: true               # удалить файлы на сервере перед копированием
           overwrite: true
           debug: true
