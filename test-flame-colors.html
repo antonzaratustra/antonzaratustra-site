@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Flame Color Test</title>
+    <style>
+        body {
+            background-color: #000;
+            color: white;
+            font-family: monospace;
+            padding: 20px;
+        }
+        .color-sample {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            margin: 5px;
+            border: 1px solid #333;
+        }
+        .test-area {
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Flame Color Function Test</h1>
+    
+    <div class="test-area">
+        <h2>Flame Color Palette</h2>
+        <div id="palette"></div>
+    </div>
+    
+    <div class="test-area">
+        <h2>Random Flame Colors</h2>
+        <div id="random-colors"></div>
+    </div>
+    
+    <div class="test-area">
+        <h2>Value-based Flame Colors (0.0 to 1.0)</h2>
+        <div id="value-colors"></div>
+    </div>
+
+    <script>
+        // Function to interpolate between two colors
+        function interpolateColor(color1, color2, factor) {
+            const result = [];
+            for (let i = 0; i < 3; i++) {
+                result.push(Math.round(color1[i] + (color2[i] - color1[i]) * factor));
+            }
+            return result;
+        }
+        
+        // Function to get a random flame color from our extended palette
+        function getRandomFlameColor() {
+            // Extended flame color palette with more vibrant colors
+            const flameColors = [
+                [255, 255, 204],  // Light Yellow (#FFFFCC)
+                [255, 242, 153],  // Yellow (#FFF299)
+                [255, 229, 102],  // Golden Yellow (#FFE566)
+                [255, 215, 0],    // Yellow (#FFD700)
+                [255, 204, 0],    // Yellow-Orange (#FFCC00)
+                [255, 191, 0],    // Golden (#FFBF00)
+                [255, 178, 0],    // Orange-Yellow (#FFB200)
+                [255, 165, 0],    // Orange (#FFA500)
+                [255, 153, 0],    // Slightly Darker Orange (#FF9900)
+                [255, 140, 0],    // Dark Orange (#FF8C00)
+                [255, 128, 0],    // Bright Orange (#FF8000)
+                [255, 115, 0],    // Deep Orange (#FF7300)
+                [255, 102, 0],    // Vibrant Orange (#FF6600)
+                [255, 90, 0],     // Bright Red-Orange (#FF5A00)
+                [255, 77, 0],     // Intense Orange (#FF4D00)
+                [255, 64, 0]      // Deep Red-Orange (#FF4000)
+            ];
+            
+            // Return a random color from our palette
+            const randomIndex = Math.floor(Math.random() * flameColors.length);
+            return flameColors[randomIndex];
+        }
+        
+        // Function to get flame color based on value (intensity) with smoother transitions
+        function getFlameColorByValue(v) {
+            // Extended flame color palette with more vibrant colors
+            const flameColors = [
+                [255, 255, 204],  // Light Yellow (#FFFFCC)
+                [255, 242, 153],  // Yellow (#FFF299)
+                [255, 229, 102],  // Golden Yellow (#FFE566)
+                [255, 215, 0],    // Yellow (#FFD700)
+                [255, 204, 0],    // Yellow-Orange (#FFCC00)
+                [255, 191, 0],    // Golden (#FFBF00)
+                [255, 178, 0],    // Orange-Yellow (#FFB200)
+                [255, 165, 0],    // Orange (#FFA500)
+                [255, 153, 0],    // Slightly Darker Orange (#FF9900)
+                [255, 140, 0],    // Dark Orange (#FF8C00)
+                [255, 128, 0],    // Bright Orange (#FF8000)
+                [255, 115, 0],    // Deep Orange (#FF7300)
+                [255, 102, 0],    // Vibrant Orange (#FF6600)
+                [255, 90, 0],     // Bright Red-Orange (#FF5A00)
+                [255, 77, 0],     // Intense Orange (#FF4D00)
+                [255, 64, 0]      // Deep Red-Orange (#FF4000)
+            ];
+            
+            // Map the value (0-1) to a position in our extended flame gradient
+            const index = Math.min(flameColors.length - 1, Math.floor(v * flameColors.length));
+            return flameColors[index];
+        }
+        
+        // Display the flame color palette
+        function displayPalette() {
+            const palette = document.getElementById('palette');
+            const flameColors = [
+                [255, 255, 204],  // Light Yellow (#FFFFCC)
+                [255, 242, 153],  // Yellow (#FFF299)
+                [255, 229, 102],  // Golden Yellow (#FFE566)
+                [255, 215, 0],    // Yellow (#FFD700)
+                [255, 204, 0],    // Yellow-Orange (#FFCC00)
+                [255, 191, 0],    // Golden (#FFBF00)
+                [255, 178, 0],    // Orange-Yellow (#FFB200)
+                [255, 165, 0],    // Orange (#FFA500)
+                [255, 153, 0],    // Slightly Darker Orange (#FF9900)
+                [255, 140, 0],    // Dark Orange (#FF8C00)
+                [255, 128, 0],    // Bright Orange (#FF8000)
+                [255, 115, 0],    // Deep Orange (#FF7300)
+                [255, 102, 0],    // Vibrant Orange (#FF6600)
+                [255, 90, 0],     // Bright Red-Orange (#FF5A00)
+                [255, 77, 0],     // Intense Orange (#FF4D00)
+                [255, 64, 0]      // Deep Red-Orange (#FF4000)
+            ];
+            
+            const labels = [
+                'Light Yellow (#FFFFCC)',
+                'Yellow (#FFF299)',
+                'Golden Yellow (#FFE566)',
+                'Yellow (#FFD700)',
+                'Yellow-Orange (#FFCC00)',
+                'Golden (#FFBF00)',
+                'Orange-Yellow (#FFB200)',
+                'Orange (#FFA500)',
+                'Slightly Darker Orange (#FF9900)',
+                'Dark Orange (#FF8C00)',
+                'Bright Orange (#FF8000)',
+                'Deep Orange (#FF7300)',
+                'Vibrant Orange (#FF6600)',
+                'Bright Red-Orange (#FF5A00)',
+                'Intense Orange (#FF4D00)',
+                'Deep Red-Orange (#FF4000)'
+            ];
+            
+            flameColors.forEach((color, index) => {
+                const div = document.createElement('div');
+                div.className = 'color-sample';
+                div.style.backgroundColor = `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
+                div.title = labels[index];
+                palette.appendChild(div);
+            });
+        }
+        
+        // Display random flame colors
+        function displayRandomColors() {
+            const container = document.getElementById('random-colors');
+            for (let i = 0; i < 30; i++) {
+                const color = getRandomFlameColor();
+                const div = document.createElement('div');
+                div.className = 'color-sample';
+                div.style.backgroundColor = `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
+                container.appendChild(div);
+            }
+        }
+        
+        // Display value-based flame colors
+        function displayValueColors() {
+            const container = document.getElementById('value-colors');
+            for (let i = 0; i <= 20; i++) {
+                const value = i / 20;
+                const color = getFlameColorByValue(value);
+                const div = document.createElement('div');
+                div.className = 'color-sample';
+                div.style.backgroundColor = `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
+                div.title = `Value: ${value.toFixed(2)}`;
+                container.appendChild(div);
+            }
+        }
+        
+        // Run tests
+        displayPalette();
+        displayRandomColors();
+        displayValueColors();
+    </script>
+</body>
+</html>

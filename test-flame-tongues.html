@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Flame Tongue Effect Test</title>
+    <style>
+        body {
+            background-color: #000;
+            color: white;
+            font-family: monospace;
+            padding: 20px;
+            margin: 0;
+            overflow: hidden;
+        }
+        #c {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+        .controls {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 10;
+            background: rgba(0,0,0,0.7);
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .btn {
+            background: #FF8C00;
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: monospace;
+        }
+        .btn:hover {
+            background: #FFA500;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="c"></canvas>
+    
+    <div class="controls">
+        <button id="toggle" class="btn">Pause</button>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('c');
+        const ctx = canvas.getContext('2d');
+        const toggleBtn = document.getElementById('toggle');
+        let paused = false;
+
+        const RAMP = ' .,:;i1tfLC08@#'; // ASCII symbols
+        let charW = 10, charH = 14, cols = 0, rows = 0;
+        let t0 = performance.now();
+
+        let field, nextField;
+        const DPR = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+
+        function resize() {
+            canvas.width = Math.floor(window.innerWidth * DPR);
+            canvas.height = Math.floor(window.innerHeight * DPR);
+            charW = 10 * DPR;
+            charH = Math.floor(charW * 1.35);
+            cols = Math.floor(canvas.width / charW);
+            rows = Math.floor(canvas.height / charH);
+            field = new Float32Array(cols * rows).fill(0);
+            nextField = new Float32Array(cols * rows).fill(0);
+        }
+        
+        function idx(x,y){ return y*cols + x; }
+        
+        function hash(x, y) {
+            let n = x * 374761393 + y * 668265263;
+            n = (n ^ (n >> 13)) * 1274126177;
+            return ((n ^ (n >> 16)) >>> 0) / 4294967295;
+        }
+        
+        function smoothNoise(x, y) {
+            const xi = Math.floor(x), yi = Math.floor(y);
+            const xf = x - xi, yf = y - yi;
+            const n00 = hash(xi, yi), n10 = hash(xi+1, yi);
+            const n01 = hash(xi, yi+1), n11 = hash(xi+1, yi+1);
+            const sx = xf*xf*(3-2*xf), sy = yf*yf*(3-2*yf);
+            const nx0 = n00*(1-sx) + n10*sx;
+            const nx1 = n01*(1-sx) + n11*sx;
+            return nx0*(1-sy) + nx1*sy;
+        }
+        
+        function fbm(x, y, oct=4) {
+            let a=0, amp=0.5, freq=1.0;
+            for (let i=0;i<oct;i++) {
+                a += smoothNoise(x*freq, y*freq) * amp;
+                freq *= 2.01; amp *= 0.55;
+            }
+            return a;
+        }
+        
+        // New function to create flame tongue effect
+        function createFlameEffect(time) {
+            const t = time * 0.001;
+            const flameMask = new Float32Array(cols * rows).fill(0);
+            const cx = cols/2, cy = rows*0.75; // Flame origin at bottom center
+            
+            for (let y=0; y<rows; y++) {
+                for (let x=0; x<cols; x++) {
+                    // Distance from bottom center
+                    const dx = x - cx;
+                    const dy = y - cy;
+                    const distance = Math.sqrt(dx*dx + dy*dy);
+                    
+                    // Create multiple flame tongues with random offsets
+                    let flameIntensity = 0;
+                    
+                    // Main central flame
+                    const angle = Math.atan2(dy, dx);
+                    const wave = Math.sin(angle * 3 + t * 2) * 0.3;
+                    const flameShape = Math.max(0, 1 - (distance / (rows * 0.4)) + wave);
+                    flameIntensity = Math.max(flameIntensity, flameShape * 0.8);
+                    
+                    // Secondary flames
+                    for (let i = 0; i < 5; i++) {
+                        const offsetX = Math.sin(t * 0.5 + i) * 20;
+                        const offsetY = Math.cos(t * 0.7 + i) * 10;
+                        const dx2 = x - (cx + offsetX);
+                        const dy2 = y - (cy + offsetY);
+                        const dist2 = Math.sqrt(dx2*dx2 + dy2*dy2);
+                        const angle2 = Math.atan2(dy2, dx2);
+                        const wave2 = Math.sin(angle2 * 2 + t * 3 + i) * 0.2;
+                        const flameShape2 = Math.max(0, 1 - (dist2 / (rows * 0.3)) + wave2);
+                        flameIntensity = Math.max(flameIntensity, flameShape2 * 0.6);
+                    }
+                    
+                    flameMask[idx(x,y)] = Math.min(1, flameIntensity);
+                }
+            }
+            return flameMask;
+        }
+        
+        // Function to interpolate between two colors
+        function interpolateColor(color1, color2, factor) {
+            const result = [];
+            for (let i = 0; i < 3; i++) {
+                result.push(Math.round(color1[i] + (color2[i] - color1[i]) * factor));
+            }
+            return result;
+        }
+        
+        // Function to get flame color based on value (intensity) with smoother transitions
+        function getFlameColorByValue(v) {
+            // Extended flame color palette with more vibrant colors
+            const flameColors = [
+                [255, 255, 204],  // Light Yellow (#FFFFCC)
+                [255, 242, 153],  // Yellow (#FFF299)
+                [255, 229, 102],  // Golden Yellow (#FFE566)
+                [255, 215, 0],    // Yellow (#FFD700)
+                [255, 204, 0],    // Yellow-Orange (#FFCC00)
+                [255, 191, 0],    // Golden (#FFBF00)
+                [255, 178, 0],    // Orange-Yellow (#FFB200)
+                [255, 165, 0],    // Orange (#FFA500)
+                [255, 153, 0],    // Slightly Darker Orange (#FF9900)
+                [255, 140, 0],    // Dark Orange (#FF8C00)
+                [255, 128, 0],    // Bright Orange (#FF8000)
+                [255, 115, 0],    // Deep Orange (#FF7300)
+                [255, 102, 0],    // Vibrant Orange (#FF6600)
+                [255, 90, 0],     // Bright Red-Orange (#FF5A00)
+                [255, 77, 0],     // Intense Orange (#FF4D00)
+                [255, 64, 0]      // Deep Red-Orange (#FF4000)
+            ];
+            
+            // Map the value (0-1) to a position in our extended flame gradient
+            const index = Math.min(flameColors.length - 1, Math.floor(v * flameColors.length));
+            return flameColors[index];
+        }
+        
+        function draw(time) {
+            if (paused) { requestAnimationFrame(draw); return; }
+            
+            const t = time - t0;
+            
+            // Create flame effect
+            const flameMask = createFlameEffect(t);
+            
+            // Apply noise to flame for more realistic movement
+            for (let x=0; x<cols; x++) {
+                const n = fbm(x*0.07, t*0.0009, 3);
+                field[idx(x, rows-1)] = 0.6 + 0.4*n;
+            }
+            for (let y=0; y<rows-1; y++) {
+                for (let x=0; x<cols; x++) {
+                    const j = Math.floor((smoothNoise(x*0.17, (t*0.001 + y*0.05))*2-1)*2);
+                    const sx = Math.min(cols-1, Math.max(0, x + j));
+                    const sy = Math.min(rows-1, y+1);
+                    const v = field[idx(sx, sy)];
+                    const l = field[idx(Math.max(0,x-1), sy)];
+                    const r = field[idx(Math.min(cols-1,x+1), sy)];
+                    nextField[idx(x,y)] = (v*2 + l + r) * 0.25 * 0.98;
+                }
+            }
+            [field, nextField] = [nextField, field];
+            
+            // Apply flame mask to field
+            for (let y=0; y<rows; y++) {
+                for (let x=0; x<cols; x++) {
+                    const flameIntensity = flameMask[idx(x,y)];
+                    field[idx(x,y)] = Math.min(1, field[idx(x,y)] + flameIntensity * 0.7);
+                }
+            }
+            
+            // Clear canvas
+            ctx.fillStyle = '#000';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.save();
+            ctx.translate((canvas.width - cols*charW)/2, (canvas.height - rows*charH)/2);
+            ctx.font = `${Math.floor(charH*0.95)}px monospace`;
+            ctx.textBaseline = 'top';
+            for (let y=0; y<rows; y++) {
+                for (let x=0; x<cols; x++) {
+                    const v = field[idx(x,y)];
+                    const rampIndex = Math.min(RAMP.length-1, Math.max(0, Math.floor(v * (RAMP.length-1))));
+                    const ch = RAMP[rampIndex];
+                    if (ch === ' ') continue;
+                    
+                    // Use flame colors instead of the original HSV-based coloring
+                    const [r, g, b] = getFlameColorByValue(v);
+                    ctx.fillStyle = `rgba(${r},${g},${b},${0.85})`;
+                    ctx.fillText(ch, x*charW, y*charH);
+                }
+            }
+            ctx.restore();
+            requestAnimationFrame(draw);
+        }
+        
+        toggleBtn.addEventListener('click', () => { 
+            paused = !paused; 
+            toggleBtn.textContent = paused ? 'Play' : 'Pause'; 
+        });
+        
+        window.addEventListener('resize', resize, {passive:true});
+        resize();
+        requestAnimationFrame(draw);
+    </script>
+</body>
+</html>
