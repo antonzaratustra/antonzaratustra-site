@@ -172,6 +172,40 @@
             max-width: 800px;
         }
         
+        /* Hide the matrix subtitle */
+        .matrix-text {
+            display: none;
+        }
+        
+        /* Custom heading for Zaratustra in 3x3 grid */
+        .custom-heading {
+            display: grid;
+            grid-template-columns: repeat(3, 150px);
+            grid-template-rows: repeat(3, 150px);
+            gap: 0;
+            width: 492px;
+            height: 492px;
+            margin: 0 auto 20px;
+            font-size: 4.5rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            border: 21px solid var(--fg-dark);
+            position: relative;
+            transform: translate(-21px, -21px);
+        }
+        
+        .custom-heading .letter {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .custom-heading .out-of-box {
+            position: absolute;
+            left: 510px;
+            top: 330px;
+        }
+        
         .center-content h1 {
             margin: 0 0 20px 0;
             font-size: 6rem;
@@ -219,8 +253,19 @@
     
     <!-- Center content - no background layer -->
     <div class="center-content">
-        <h1 data-en="Anton Zaratustra" data-ru="Антон Заратустра">Anton Zaratustra</h1>
-        <div class="matrix-text" data-en="Matrix has you!!.." data-ru="Ты увяз в матрице!!..">Matrix has you...</div>
+        <div class="custom-heading">
+            <div class="letter">Z</div>
+            <div class="letter">A</div>
+            <div class="letter">R</div>
+            <div class="letter">A</div>
+            <div class="letter">T</div>
+            <div class="letter">U</div>
+            <div class="letter">S</div>
+            <div class="letter">T</div>
+            <div class="letter">R</div>
+            <div class="letter out-of-box">A</div>
+        </div>
+        <div class="matrix-text" data-en="Matrix has you..." data-ru="Ты увяз в матрице...">Matrix has you...</div>
     </div>
 
     <script>
