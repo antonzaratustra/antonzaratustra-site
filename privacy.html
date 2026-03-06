@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,7 +11,7 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
             margin: 0;
-            padding: 40px 20px;
+            padding: 80px 20px 40px;
             display: flex;
             justify-content: center;
         }
@@ -22,6 +22,8 @@
         h1 { color: #FFA500; border-bottom: 1px solid #333; padding-bottom: 10px; }
         h2 { margin-top: 30px; color: #fff; }
         p { margin-bottom: 15px; opacity: 0.9; }
+        ul { margin-bottom: 20px; opacity: 0.9; }
+        li { margin-bottom: 10px; }
         .back-link {
             display: inline-block;
             margin-bottom: 20px;
@@ -30,43 +32,137 @@
             font-size: 0.9rem;
         }
         .back-link:hover { text-decoration: underline; }
+        
+        /* Language Toggle Styles matching index.html */
+        .top-controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+        }
+        .LanguageToggle {
+            appearance: none;
+            width: 62px;
+            height: 32px;
+            display: inline-block;
+            position: relative;
+            border-radius: 50px;
+            overflow: hidden;
+            outline: none;
+            border: none;
+            cursor: pointer;
+            background: #FFA500;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            transition: background-color 0.3s;
+        }
+        .LanguageToggle::before {
+            content: "EN";
+            display: block;
+            position: absolute;
+            z-index: 2;
+            width: 24px;
+            height: 24px;
+            background: white;
+            left: 4px;
+            top: 4px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 24px;
+            font-size: 12px;
+            color: #333;
+            font-weight: bold;
+            transition: all cubic-bezier(0.3, 1.5, 0.7, 1) 0.3s;
+        }
+        .LanguageToggle:checked::before {
+            left: 32px;
+            content: "RU";
+        }
+
         footer { margin-top: 50px; font-size: 0.8rem; opacity: 0.5; border-top: 1px solid #333; padding-top: 20px; }
     </style>
 </head>
 <body>
+    <div class="top-controls">
+        <input id="languageSwitcher" class="LanguageToggle" type="checkbox">
+    </div>
+
     <div class="content">
-        <a href="/" class="back-link">← На главную</a>
-        <h1>Privacy Policy</h1>
-        <p>Последнее обновление: 6 марта 2026 г.</p>
+        <a href="/" class="back-link" data-en="← Back to home" data-ru="← На главную">← Back to home</a>
+        
+        <h1 data-en="Privacy Policy" data-ru="Политика конфиденциальности">Privacy Policy</h1>
+        
+        <p><span data-en="Last updated: March 6, 2026" data-ru="Последнее обновление: 6 марта 2026 г.">Last updated: March 6, 2026</span></p>
 
-        <p>Ваша конфиденциальность важна для нас. В этом документе описано, как приложение <strong>Mentorist</strong> (далее — "Приложение"), разработанное Антоном Заратустрой, обрабатывает ваши данные.</p>
+        <p data-en="Your privacy is important to us. This document describes how the Mentorist application (hereinafter the 'Application'), developed by Anton Zaratustra, handles your data." 
+           data-ru="Ваша конфиденциальность важна для нас. В этом документе описано, как приложение Mentorist (далее — 'Приложение'), разработанное Антоном Заратустрой, обрабатывает ваши данные.">
+            Your privacy is important to us. This document describes how the Mentorist application (hereinafter the 'Application'), developed by Anton Zaratustra, handles your data.
+        </p>
 
-        <h2>1. Сбор информации</h2>
-        <p>При использовании входа через Google (Google OAuth), Приложение запрашивает доступ к вашему адресу электронной почты и базовой информации профиля (имя, аватар). Мы используем эти данные исключительно для идентификации вас как пользователя и персонализации интерфейса.</p>
+        <h2 data-en="1. Information Collection" data-ru="1. Сбор информации">1. Information Collection</h2>
+        <p data-en="When using Google Sign-In (Google OAuth), the Application requests access to your email address and basic profile information (name, avatar). We use this data solely to identify you as a user and personalize the interface."
+           data-ru="При использовании входа через Google (Google OAuth), Приложение запрашивает доступ к вашему адресу электронной почты и базовой информации профиля (имя, аватар). Мы используем эти данные исключительно для идентификации вас как пользователя и персонализации интерфейса.">
+            When using Google Sign-In (Google OAuth), the Application requests access to your email address and basic profile information (name, avatar). We use this data solely to identify you as a user and personalize the interface.
+        </p>
 
-        <h2>2. Использование данных</h2>
-        <p>Мы используем полученную информацию для следующих целей:</p>
+        <h2 data-en="2. Data Usage" data-ru="2. Использование данных">2. Data Usage</h2>
+        <p data-en="We use the information collected for the following purposes:"
+           data-ru="Мы используем полученную информацию для следующих целей:">
+            We use the information collected for the following purposes:
+        </p>
         <ul>
-            <li>Обеспечение работы функций Приложения;</li>
-            <li>Создание и управление вашей учетной записью;</li>
-            <li>Улучшение качества работы сервиса Mentorist.</li>
+            <li data-en="Providing the Application's features;" data-ru="Обеспечение работы функций Приложения;">Providing the Application's features;</li>
+            <li data-en="Creating and managing your account;" data-ru="Создание и управление вашей учетной записью;">Creating and managing your account;</li>
+            <li data-en="Improving the quality of the Mentorist service." data-ru="Улучшение качества работы сервиса Mentorist.">Improving the quality of the Mentorist service.</li>
         </ul>
 
-        <h2>3. Передача данных третьим лицам</h2>
-        <p>Мы не продаем, не обмениваем и не передаем вашу личную информацию сторонним компаниям. Это не относится к доверенным лицам, которые помогают нам в работе сайта и ведении бизнеса, при условии, что они согласны сохранять конфиденциальность этой информации.</p>
+        <h2 data-en="3. Third-party disclosure" data-ru="3. Передача данных третьим лицам">3. Third-party disclosure</h2>
+        <p data-en="We do not sell, trade, or otherwise transfer your personally identifiable information to outside parties. This does not include trusted third parties who assist us in operating our website or conducting our business, so long as those parties agree to keep this information confidential."
+           data-ru="Мы не продаем, не обмениваем и не передаем вашу личную информацию сторонним компаниям. Это не относится к доверенным лицам, которые помогают нам в работе сайта и ведении бизнеса, при условии, что они согласны сохранять конфиденциальность этой информации.">
+            We do not sell, trade, or otherwise transfer your personally identifiable information to outside parties. This does not include trusted third parties who assist us in operating our website or conducting our business, so long as those parties agree to keep this information confidential.
+        </p>
 
-        <h2>4. Защита информации</h2>
-        <p>Мы внедряем ряд мер безопасности для обеспечения сохранности вашей личной информации. Ваши данные хранятся в защищенных сетях и доступны только ограниченному числу лиц, имеющих особые права доступа к таким системам.</p>
+        <h2 data-en="4. Data Protection" data-ru="4. Защита информации">4. Data Protection</h2>
+        <p data-en="We implement a variety of security measures to maintain the safety of your personal information. Your data is contained behind secured networks and is only accessible by a limited number of persons who have special access rights to such systems."
+           data-ru="Мы внедряем ряд мер безопасности для обеспечения сохранности вашей личной информации. Ваши данные хранятся в защищенных сетях и доступны только ограниченному числу лиц, имеющих особые права доступа к таким системам.">
+            We implement a variety of security measures to maintain the safety of your personal information. Your data is contained behind secured networks and is only accessible by a limited number of persons who have special access rights to such systems.
+        </p>
 
-        <h2>5. Использование Google API</h2>
-        <p>Использование Mentorist информации, полученной от Google API, будет соответствовать <a href="https://developers.google.com/terms/api-services-user-data-policy" style="color: #FFA500;">Политике данных пользователей сервисов Google API</a>, включая требования по ограниченному использованию (Limited Use requirements).</p>
+        <h2 data-en="5. Google API Usage" data-ru="5. Использование Google API">5. Google API Usage</h2>
+        <p data-en="Mentorist's use of information received from Google APIs will adhere to the Google API Services User Data Policy, including the Limited Use requirements."
+           data-ru="Использование Mentorist информации, полученной от Google API, будет соответствовать Политике данных пользователей сервисов Google API, включая требования по ограниченному использованию (Limited Use requirements).">
+            Mentorist's use of information received from Google APIs will adhere to the <a href="https://developers.google.com/terms/api-services-user-data-policy" style="color: #FFA500;">Google API Services User Data Policy</a>, including the Limited Use requirements.
+        </p>
 
-        <h2>6. Контакты</h2>
-        <p>Если у вас возникли вопросы относительно данной политики конфиденциальности, вы можете связаться с нами по адресу: <strong>antonzaratustra@gmail.com</strong></p>
+        <h2 data-en="6. Contacts" data-ru="6. Контакты">6. Contacts</h2>
+        <p data-en="If you have any questions regarding this privacy policy, you may contact us at: antonzaratustra@gmail.com"
+           data-ru="Если у вас возникли вопросы относительно данной политики конфиденциальности, вы можете связаться с нами по адресу: antonzaratustra@gmail.com">
+            If you have any questions regarding this privacy policy, you may contact us at: <strong>antonzaratustra@gmail.com</strong>
+        </p>
 
         <footer>
-            © 2026 Anton Zaratustra. Все права защищены.
+            © 2026 Anton Zaratustra. <span data-en="All rights reserved." data-ru="Все права защищены.">All rights reserved.</span>
         </footer>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const languageToggle = document.getElementById('languageSwitcher');
+            let currentLang = 'en';
+
+            function switchLanguage(lang) {
+                currentLang = lang;
+                document.querySelectorAll('[data-en], [data-ru]').forEach(function(el) {
+                    el.textContent = el.dataset[lang];
+                });
+            }
+
+            languageToggle.addEventListener('change', function() {
+                switchLanguage(this.checked ? 'ru' : 'en');
+            });
+
+            // Set default language to English
+            switchLanguage('en');
+        });
+    </script>
 </body>
 </html>

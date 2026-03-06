@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,7 +11,7 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
             margin: 0;
-            padding: 40px 20px;
+            padding: 80px 20px 40px;
             display: flex;
             justify-content: center;
         }
@@ -30,41 +30,138 @@
             font-size: 0.9rem;
         }
         .back-link:hover { text-decoration: underline; }
+        
+        /* Language Toggle Styles matching index.html */
+        .top-controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+        }
+        .LanguageToggle {
+            appearance: none;
+            width: 62px;
+            height: 32px;
+            display: inline-block;
+            position: relative;
+            border-radius: 50px;
+            overflow: hidden;
+            outline: none;
+            border: none;
+            cursor: pointer;
+            background: #FFA500;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            transition: background-color 0.3s;
+        }
+        .LanguageToggle::before {
+            content: "EN";
+            display: block;
+            position: absolute;
+            z-index: 2;
+            width: 24px;
+            height: 24px;
+            background: white;
+            left: 4px;
+            top: 4px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 24px;
+            font-size: 12px;
+            color: #333;
+            font-weight: bold;
+            transition: all cubic-bezier(0.3, 1.5, 0.7, 1) 0.3s;
+        }
+        .LanguageToggle:checked::before {
+            left: 32px;
+            content: "RU";
+        }
+
         footer { margin-top: 50px; font-size: 0.8rem; opacity: 0.5; border-top: 1px solid #333; padding-top: 20px; }
     </style>
 </head>
 <body>
+    <div class="top-controls">
+        <input id="languageSwitcher" class="LanguageToggle" type="checkbox">
+    </div>
+
     <div class="content">
-        <a href="/" class="back-link">← На главную</a>
-        <h1>Terms of Service</h1>
-        <p>Последнее обновление: 6 марта 2026 г.</p>
+        <a href="/" class="back-link" data-en="← Back to home" data-ru="← На главную">← Back to home</a>
+        
+        <h1 data-en="Terms of Service" data-ru="Условия использования">Terms of Service</h1>
+        
+        <p><span data-en="Last updated: March 6, 2026" data-ru="Последнее обновление: 6 марта 2026 г.">Last updated: March 6, 2026</span></p>
 
-        <p>Используя приложение <strong>Mentorist</strong> (далее — "Приложение"), вы соглашаетесь со следующими условиями использования.</p>
+        <p data-en="By using the Mentorist application (hereinafter the 'Application'), you agree to the following terms of service." 
+           data-ru="Используя приложение Mentorist (далее — 'Приложение'), вы соглашаетесь со следующими условиями использования.">
+            By using the Mentorist application (hereinafter the 'Application'), you agree to the following terms of service.
+        </p>
 
-        <h2>1. Принятие условий</h2>
-        <p>Заходя в Приложение или используя его функции, вы подтверждаете, что ознакомлены с данными Условиями и принимаете их в полном объеме.</p>
+        <h2 data-en="1. Acceptance of Terms" data-ru="1. Принятие условий">1. Acceptance of Terms</h2>
+        <p data-en="By accessing or using the Application, you confirm that you have read, understood, and agree to be bound by these Terms."
+           data-ru="Заходя в Приложение или используя его функции, вы подтверждаете, что ознакомлены с данными Условиями и принимаете их в полном объеме.">
+            By accessing or using the Application, you confirm that you have read, understood, and agree to be bound by these Terms.
+        </p>
 
-        <h2>2. Описание сервиса</h2>
-        <p>Mentorist предоставляет платформу для [опишите здесь кратко суть приложения, например: управления обучением или поиска менторов].</p>
+        <h2 data-en="2. Service Description" data-ru="2. Описание сервиса">2. Service Description</h2>
+        <p data-en="Mentorist provides a platform for [describe service here, e.g., learning management or mentor search]."
+           data-ru="Mentorist предоставляет платформу для [опишите здесь кратко суть приложения, например: управления обучением или поиска менторов].">
+            Mentorist provides a platform for [describe service here, e.g., learning management or mentor search].
+        </p>
 
-        <h2>3. Регистрация и Аккаунты</h2>
-        <p>При использовании входа через Google вы обязуетесь использовать свою настоящую учетную запись и нести ответственность за безопасность ваших данных доступа. Мы оставляем за собой право приостановить доступ в случае подозрительной активности.</p>
+        <h2 data-en="3. Registration and Accounts" data-ru="3. Регистрация и Аккаунты">3. Registration and Accounts</h2>
+        <p data-en="When using Google Sign-In, you agree to use your actual account and are responsible for the security of your access data. We reserve the right to suspend access in case of suspicious activity."
+           data-ru="При использовании входа через Google вы обязуетесь использовать свою настоящую учетную запись и нести ответственность за безопасность ваших данных доступа. Мы оставляем за собой право приостановить доступ в случае подозрительной активности.">
+            When using Google Sign-In, you agree to use your actual account and are responsible for the security of your access data. We reserve the right to suspend access in case of suspicious activity.
+        </p>
 
-        <h2>4. Ограничение ответственности</h2>
-        <p>Приложение предоставляется по принципу "как есть" ("as is"). Разработчик Антон Заратустра не несет ответственности за любые убытки или потерю данных, возникшие в результате использования данного сервиса.</p>
+        <h2 data-en="4. Limitation of Liability" data-ru="4. Ограничение ответственности">4. Limitation of Liability</h2>
+        <p data-en="The Application is provided on an 'as is' basis. Developer Anton Zaratustra is not liable for any damages or loss of data resulting from the use of this service."
+           data-ru="Приложение предоставляется по принципу 'как есть' ('as is'). Разработчик Антон Заратустра не несет ответственности за любые убытки или потерю данных, возникшие в результате использования данного сервиса.">
+            The Application is provided on an 'as is' basis. Developer Anton Zaratustra is not liable for any damages or loss of data resulting from the use of this service.
+        </p>
 
-        <h2>5. Интеллектуальная собственность</h2>
-        <p>Весь контент, дизайн и код Приложения являются интеллектуальной собственностью разработчика и защищены законом об авторском праве.</p>
+        <h2 data-en="5. Intellectual Property" data-ru="5. Интеллектуальная собственность">5. Intellectual Property</h2>
+        <p data-en="All content, design, and code of the Application are the intellectual property of the developer and are protected by copyright law."
+           data-ru="Весь контент, дизайн и код Приложения являются интеллектуальной собственностью разработчика и защищены законом об авторском праве.">
+            All content, design, and code of the Application are the intellectual property of the developer and are protected by copyright law.
+        </p>
 
-        <h2>6. Изменения условий</h2>
-        <p>Мы оставляем за собой право вносить изменения в настоящие Условия в любое время. Продолжение использования сервиса после внесения изменений означает ваше согласие с новой редакцией Условий.</p>
+        <h2 data-en="6. Changes to Terms" data-ru="6. Изменения условий">6. Changes to Terms</h2>
+        <p data-en="We reserve the right to modify these Terms at any time. Continued use of the service after changes are made constitutes your acceptance of the new version of the Terms."
+           data-ru="Мы оставляем за собой право вносить изменения в настоящие Условия в любое время. Продолжение использования сервиса после внесения изменений означает ваше согласие с новой редакцией Условий.">
+            We reserve the right to modify these Terms at any time. Continued use of the service after changes are made constitutes your acceptance of the new version of the Terms.
+        </p>
 
-        <h2>7. Контактная информация</h2>
-        <p>По всем вопросам использования Приложения Mentorist вы можете писать на: <strong>antonzaratustra@gmail.com</strong></p>
+        <h2 data-en="7. Contact Information" data-ru="7. Контактная информация">7. Contact Information</h2>
+        <p data-en="For any questions regarding the use of the Mentorist Application, you can write to: antonzaratustra@gmail.com"
+           data-ru="По всем вопросам использования Приложения Mentorist вы можете писать на: antonzaratustra@gmail.com">
+            For any questions regarding the use of the Mentorist Application, you can write to: <strong>antonzaratustra@gmail.com</strong>
+        </p>
 
         <footer>
-            © 2026 Anton Zaratustra. Все права защищены.
+            © 2026 Anton Zaratustra. <span data-en="All rights reserved." data-ru="Все права защищены.">All rights reserved.</span>
         </footer>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const languageToggle = document.getElementById('languageSwitcher');
+            let currentLang = 'en';
+
+            function switchLanguage(lang) {
+                currentLang = lang;
+                document.querySelectorAll('[data-en], [data-ru]').forEach(function(el) {
+                    el.textContent = el.dataset[lang];
+                });
+            }
+
+            languageToggle.addEventListener('change', function() {
+                switchLanguage(this.checked ? 'ru' : 'en');
+            });
+
+            // Set default language to English
+            switchLanguage('en');
+        });
+    </script>
 </body>
 </html>
