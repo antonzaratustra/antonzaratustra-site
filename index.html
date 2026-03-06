@@ -1,566 +1,163 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anton Zaratustra</title>
+    <title>Mentorist — Official Homepage</title>
+    <meta name="description" content="Official homepage of Mentorist app with links to privacy policy and terms of service.">
     <style>
         :root {
-            --bg-dark: #0a0a0f;
-            --bg-light: #f0f0f5;
-            --fg-dark: #0a0a0f;
-            --fg-light: #f0f0f5;
-            --color-background: #0a0a0f;
-            --color-background-secondary: #1a1a2e;
-            --color-text-default: #e6e6f0;
-            --color-accent: #FFA500;
+            --bg: #0a0a0f;
+            --bg-card: #171721;
+            --fg: #e6e6f0;
+            --muted: #bdbdca;
+            --accent: #ffa500;
+            --border: rgba(255, 255, 255, 0.08);
         }
         * { box-sizing: border-box; }
-        html, body {
+        body {
             margin: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--color-background);
-            overflow-x: hidden;
-            overflow-y: auto;
+            background: radial-gradient(circle at top, #1b1b2d, #0a0a0f 50%);
+            color: var(--fg);
         }
-        
-        /* Light theme */
-        html.light {
-            --color-background: #f0f0f5;
-            --color-background-secondary: #d0d0e0;
-            --color-text-default: #333333;
-        }
-        
-        /* Dark theme */
-        html.dark {
-            --color-background: #0a0a0f;
-            --color-background-secondary: #1a1a2e;
-            --color-text-default: #e6e6f0;
-        }
-        
-        body {
-            background-color: var(--color-background);
-            color: var(--color-text-default);
-        }
-        
-        #wrap { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
-        #c { width: 100vw; height: 100vh; display: block; }
-        
         .top-controls {
             position: fixed;
-            top: 10px;
-            right: 10px;
-            display: flex;
-            gap: 10px;
+            top: 16px;
+            right: 16px;
             z-index: 100;
         }
-        
-        .ThemeToggle, .LanguageToggle {
+        .LanguageToggle {
             appearance: none;
             width: 62px;
             height: 32px;
-            display: inline-block;
-            position: relative;
             border-radius: 50px;
-            overflow: hidden;
-            outline: none;
-            border: none;
+            border: 0;
+            background: var(--accent);
+            position: relative;
             cursor: pointer;
-            background: var(--color-background-secondary);
-            transition: background-color ease 0.3s;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
         }
-
-        .ThemeToggle::before {
-            content: "🌙";
-            display: block;
-            position: absolute;
-            z-index: 2;
-            width: 24px;
-            height: 24px;
-            background: var(--color-background);
-            left: 4px;
-            top: 4px;
-            border-radius: 50%;
-            text-align: center;
-            line-height: 24px;
-            font-size: 14px;
-            transition: all cubic-bezier(0.3, 1.5, 0.7, 1) 0.3s;
-        }
-
-        .ThemeToggle:checked::before {
-            left: 32px;
-            content: "☀️";
-        }
-        
-        .LanguageToggle {
-            background: var(--color-accent);
-            color: #333;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-
         .LanguageToggle::before {
             content: "EN";
-            display: block;
             position: absolute;
-            z-index: 2;
-            width: 24px;
-            height: 24px;
-            background: white;
             left: 4px;
             top: 4px;
+            width: 24px;
+            height: 24px;
             border-radius: 50%;
-            text-align: center;
-            line-height: 24px;
+            background: #fff;
+            color: #333;
             font-size: 12px;
-            transition: all cubic-bezier(0.3, 1.5, 0.7, 1) 0.3s;
-        }
-
-        .LanguageToggle:checked::before {
-            left: 32px;
-            content: "RU";
-        }
-        
-        .center-content {
-            position: relative;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 5;
-            padding: 40px 20px;
-            width: 100%;
+            line-height: 24px;
             text-align: center;
-        }
-        
-        .custom-heading {
-            display: grid;
-            grid-template-columns: repeat(3, 150px);
-            grid-template-rows: repeat(3, 150px);
-            width: 450px;
-            height: 450px;
-            margin: 0 auto 20px;
-            font-size: 4.5rem;
             font-weight: 700;
-            letter-spacing: -0.03em;
-            position: relative;
+            transition: all .25s ease;
         }
-        
-        .square-border {
-            position: absolute;
-            width: 450px;
-            height: 450px;
-            border: 21px solid var(--color-text-default);
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 1;
+        .LanguageToggle:checked::before { left: 34px; content: "RU"; }
+        .container {
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 90px 20px 60px;
         }
-        
-        .custom-heading .letter {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            z-index: 3;
-        }
-        
-        .custom-heading .out-of-box {
-            position: absolute;
-            left: 510px;
-            top: 330px;
-        }
-        
-        .center-logo {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0.95);
-            z-index: 2;
-            width: 650px;
-            height: auto;
-            pointer-events: none;
-            opacity: 0;
-            animation: logoFadeIn 5s ease-out 1.5s forwards;
-        }
-
-        @keyframes logoFadeIn {
-            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.95); }
-            100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-        }
-
-        /* --- Mentorist Section --- */
-        .mentorist-section {
-            position: relative;
-            z-index: 5;
-            padding: 100px 60px;
-            width: 95%;
-            max-width: 1200px;
-            margin: 60px auto;
+        .hero {
             display: grid;
-            grid-template-columns: 1fr 1.2fr;
-            gap: 60px;
+            grid-template-columns: 140px 1fr;
+            gap: 24px;
             align-items: center;
-            background: rgba(5, 5, 10, 0.75); /* Темный фон для читаемости */
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border-radius: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-        }
-
-        .mentorist-info { text-align: left; }
-        .mentorist-info .badge {
-            display: inline-block;
-            padding: 6px 14px;
-            background: rgba(255, 165, 0, 0.15);
-            color: var(--color-accent);
+            padding: 28px;
+            background: rgba(10, 10, 15, 0.7);
+            border: 1px solid var(--border);
             border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            margin-bottom: 24px;
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
         }
-
-        .mentorist-info h2 {
-            font-size: 4rem;
-            margin: 0 0 24px 0;
-            color: var(--color-accent);
-            line-height: 1;
-            font-weight: 800;
-            text-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        .hero img { width: 100%; height: auto; }
+        h1 { margin: 0 0 8px; font-size: 2rem; color: var(--accent); }
+        .subtitle { margin: 0; color: var(--muted); }
+        .section {
+            margin-top: 22px;
+            padding: 24px 28px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
         }
-
-        .mentorist-info p {
-            font-size: 1.4rem;
-            opacity: 1;
-            margin-bottom: 48px;
-            line-height: 1.4;
-            color: #fff;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.8); /* Тень для текста */
-        }
-
-        .mentorist-features {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        .feature-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 32px;
-            border-radius: 24px;
-            transition: all 0.4s ease;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--color-accent);
-            background: rgba(255, 165, 0, 0.03);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
-        .feature-card h3 {
-            font-size: 1.2rem;
-            margin: 0 0 12px 0;
-            color: var(--color-accent);
-            text-shadow: 0 2px 10px rgba(0,0,0,0.4);
-        }
-
-        .feature-card p {
-            font-size: 0.95rem;
-            margin: 0;
-            opacity: 0.9; /* Сделал текст светлее */
-            color: #fff;
-            line-height: 1.5;
-            text-shadow: 0 1px 5px rgba(0,0,0,0.5);
-        }
-
-        .btn-mentorist {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 16px 36px;
-            background-color: var(--color-accent);
-            color: #000;
-            text-decoration: none;
-            font-weight: 700;
-            border-radius: 50px;
-            transition: all 0.3s;
-            font-size: 1rem;
-        }
-
-        .btn-mentorist:hover {
-            transform: scale(1.05);
-            background-color: #ffb833;
-            box-shadow: 0 0 20px rgba(255, 165, 0, 0.4);
-        }
-
-        /* Responsive */
-        @media (max-width: 900px) {
-            .mentorist-section { grid-template-columns: 1fr; text-align: center; gap: 50px; padding: 80px 20px; }
-            .mentorist-info { text-align: center; }
-            .mentorist-info h2 { font-size: 2.5rem; }
-            .custom-heading { width: 300px; height: 300px; grid-template-columns: repeat(3, 100px); grid-template-rows: repeat(3, 100px); font-size: 3rem; }
-            .square-border { width: 300px; height: 300px; border-width: 14px; }
-            .center-logo { width: 400px; }
-            .custom-heading .out-of-box { left: 340px; top: 220px; }
-        }
-
-        .site-footer {
-            background-color: #050509;
-            width: 100%;
-            padding: 80px 0;
+        .section h2 { margin: 0 0 12px; font-size: 1.2rem; }
+        .section p { margin: 0 0 12px; color: var(--muted); }
+        ul { margin: 0; padding-left: 18px; color: var(--muted); }
+        li { margin-bottom: 8px; }
+        .links {
+            margin-top: 18px;
             display: flex;
-            justify-content: center;
-            gap: 40px;
-            z-index: 10;
-            border-top: 1px solid rgba(255,255,255,0.03);
-            position: relative;
+            gap: 12px;
+            flex-wrap: wrap;
         }
-
-        .site-footer a {
-            color: var(--color-text-default);
+        .btn {
+            display: inline-block;
+            padding: 11px 16px;
+            border-radius: 10px;
             text-decoration: none;
-            font-size: 0.85rem;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            opacity: 0.4;
-            transition: all 0.3s;
+            font-weight: 700;
+            border: 1px solid var(--border);
         }
-
-        .site-footer a:hover { opacity: 1; color: var(--color-accent); }
+        .btn.primary { background: var(--accent); color: #111; border-color: transparent; }
+        .btn.secondary { background: transparent; color: var(--fg); }
+        footer {
+            margin-top: 26px;
+            text-align: center;
+            color: #a9a9b5;
+            font-size: 0.9rem;
+        }
     </style>
 </head>
-<body class="dark">
-    <div id="wrap">
-        <canvas id="c"></canvas>
-    </div>
-    
+<body>
     <div class="top-controls">
-        <input id="themeSwitcher" class="ThemeToggle" type="checkbox">
-        <input id="languageSwitcher" class="LanguageToggle" type="checkbox">
-    </div>
-    
-    <div class="center-content">
-        <div class="custom-heading">
-            <div class="letter">Z</div>
-            <div class="letter">A</div>
-            <div class="letter">R</div>
-            <div class="letter">A</div>
-            <div class="letter">T</div>
-            <div class="letter">U</div>
-            <div class="letter">S</div>
-            <div class="letter">T</div>
-            <div class="letter">R</div>
-            <div class="letter out-of-box">A</div>
-            <div class="square-border"></div>
-            <img src="imgs/logo.webp" alt="Logo" class="center-logo">
-        </div>
-        <div class="matrix-text" data-en="Matrix has you..." data-ru="Ты увяз в матрице...">Matrix has you...</div>
+        <input id="languageSwitcher" class="LanguageToggle" type="checkbox" aria-label="Switch language">
     </div>
 
-    <!-- Mentorist Section -->
-    <section class="mentorist-section">
-        <div class="mentorist-info">
-            <div class="badge">Application</div>
-            <h2 data-en="Mentorist" data-ru="Mentorist">Mentorist</h2>
-            <p data-en="Personal strategy that collects goals, balance, and support into one living contour." 
-               data-ru="Личная стратегия, которая собирает цели, баланс и поддержку в один живой контур.">
-                Personal strategy that collects goals, balance, and support into one living contour.
-            </p>
-            <a href="/mentorist" class="btn-mentorist">
-                <span data-en="Launch App" data-ru="Запустить приложение">Launch App</span>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-            </a>
-        </div>
-        <div class="mentorist-features">
-            <div class="feature-card">
-                <h3 data-en="Balance of Spheres" data-ru="Баланс сфер">Balance of Spheres</h3>
-                <p data-en="Track and visualize your life balance across different areas in one screen." 
-                   data-ru="Отслеживайте и визуализируйте баланс жизни по разным сферам на одном экране.">
-                    Track and visualize your life balance across different areas in one screen.
-                </p>
+    <main class="container">
+        <section class="hero">
+            <img src="imgs/logo.webp" alt="Mentorist logo">
+            <div>
+                <h1 data-en="Mentorist" data-ru="Mentorist">Mentorist</h1>
+                <p class="subtitle" data-en="Official homepage of the Mentorist application." data-ru="Официальная главная страница приложения Mentorist.">Official homepage of the Mentorist application.</p>
             </div>
-            <div class="feature-card">
-                <h3 data-en="Active Contours" data-ru="Активные контуры">Active Contours</h3>
-                <p data-en="Manage energies and goals through a unified system of interconnected elements." 
-                   data-ru="Управляйте энергиями и целями через единую систему взаимосвязанных элементов.">
-                    Manage energies and goals through a unified system of interconnected elements.
-                </p>
-            </div>
-            <div class="feature-card">
-                <h3 data-en="Weekly Rhythm" data-ru="Недельный ритм">Weekly Rhythm</h3>
-                <p data-en="Set your pace and keep focus with built-in planning and notification system." 
-                   data-ru="Задавайте свой темп и сохраняйте фокус с помощью встроенной системы планирования.">
-                    Set your pace and keep focus with built-in planning and notification system.
-                </p>
-            </div>
-            <div class="feature-card">
-                <h3 data-en="Support Network" data-ru="Сеть поддержки">Support Network</h3>
-                <p data-en="Connect with mentors and peers to accelerate your personal growth." 
-                   data-ru="Общайтесь с наставниками и единомышленниками для ускорения вашего роста.">
-                    Connect with mentors and peers to accelerate your personal growth.
-                </p>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <footer class="site-footer">
-        <a href="/privacy.html" data-en="Privacy Policy" data-ru="Политика конфиденциальности">Privacy Policy</a>
-        <a href="/terms.html" data-en="Terms of Service" data-ru="Условия использования">Terms of Service</a>
-    </footer>
+        <section class="section">
+            <h2 data-en="What Mentorist is" data-ru="Что такое Mentorist">What Mentorist is</h2>
+            <p data-en="Mentorist is a social goal-organizer that helps people and communities set goals, keep life balance, and move forward with mentors and peers." data-ru="Mentorist — это социальный органайзер целей, который помогает людям и сообществам ставить цели, сохранять баланс сфер жизни и двигаться вперед с менторами и единомышленниками.">Mentorist is a social goal-organizer that helps people and communities set goals, keep life balance, and move forward with mentors and peers.</p>
+            <ul>
+                <li data-en="Goal constructor with SMARTER principles and shared accountability." data-ru="Конструктор целей по принципам SMARTER и с системой подотчетности.">Goal constructor with SMARTER principles and shared accountability.</li>
+                <li data-en="Balance wheel for key life spheres and progress visualization." data-ru="Колесо баланса по ключевым сферам жизни и визуализация прогресса.">Balance wheel for key life spheres and progress visualization.</li>
+                <li data-en="Mentor/mentee collaboration, feedback, and community activity flows." data-ru="Взаимодействие менторов и мэйдеев, обратная связь и социальная активность.">Mentor/mentee collaboration, feedback, and community activity flows.</li>
+            </ul>
+        </section>
+
+        <section class="section">
+            <h2 data-en="Legal and support" data-ru="Юридическая информация и поддержка">Legal and support</h2>
+            <p data-en="Use the links below to review how Mentorist handles data and service usage rules." data-ru="Используйте ссылки ниже, чтобы ознакомиться с обработкой данных и правилами использования Mentorist.">Use the links below to review how Mentorist handles data and service usage rules.</p>
+            <div class="links">
+                <a class="btn secondary" href="/privacy.html" data-en="Privacy Policy" data-ru="Политика конфиденциальности">Privacy Policy</a>
+                <a class="btn secondary" href="/terms.html" data-en="Terms of Service" data-ru="Условия использования">Terms of Service</a>
+                <a class="btn primary" href="mailto:antonzaratustra@gmail.com">antonzaratustra@gmail.com</a>
+            </div>
+        </section>
+
+        <footer data-en="© 2026 Mentorist. All rights reserved." data-ru="© 2026 Mentorist. Все права защищены.">© 2026 Mentorist. All rights reserved.</footer>
+    </main>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const themeToggle = document.getElementById('themeSwitcher');
             const languageToggle = document.getElementById('languageSwitcher');
-            const body = document.body;
-            let isDarkTheme = true;
-            let currentLang = 'en';
-
             function switchLanguage(lang) {
-                currentLang = lang;
+                document.documentElement.lang = lang;
                 document.querySelectorAll('[data-en], [data-ru]').forEach(function(el) {
                     el.textContent = el.dataset[lang];
                 });
             }
-
-            function toggleTheme() {
-                if (isDarkTheme) {
-                    body.classList.remove('dark');
-                    body.classList.add('light');
-                    document.documentElement.classList.remove('dark');
-                    document.documentElement.classList.add('light');
-                } else {
-                    body.classList.remove('light');
-                    body.classList.add('dark');
-                    document.documentElement.classList.remove('light');
-                    document.documentElement.classList.add('dark');
-                }
-                isDarkTheme = !isDarkTheme;
-            }
-
-            themeToggle.addEventListener('change', toggleTheme);
             languageToggle.addEventListener('change', function() {
                 switchLanguage(this.checked ? 'ru' : 'en');
             });
             switchLanguage('en');
         });
-
-        (() => {
-            const canvas = document.getElementById('c');
-            const ctx = canvas.getContext('2d');
-            const body = document.body;
-            let paused = false;
-            const RAMP = ' .,:;i1tfLC08@#';
-            let charW = 10, charH = 14, cols = 0, rows = 0;
-            let t0 = performance.now();
-            let loopLen = 9000;
-            let speedMul = 1.0;
-            let field, nextField;
-            const DPR = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
-
-            function getThemeColors() {
-                return body.classList.contains('light') ? { bg: '#f0f0f5' } : { bg: '#0a0a0f' };
-            }
-
-            function resize() {
-                canvas.width = Math.floor(window.innerWidth * DPR);
-                canvas.height = Math.floor(window.innerHeight * DPR);
-                charW = 10 * DPR;
-                charH = Math.floor(charW * 1.35);
-                cols = Math.floor(canvas.width / charW);
-                rows = Math.floor(canvas.height / charH);
-                field = new Float32Array(cols * rows).fill(0);
-                nextField = new Float32Array(cols * rows).fill(0);
-            }
-            
-            function idx(x,y){ return y*cols + x; }
-            function hash(x, y) {
-                let n = x * 374761393 + y * 668265263;
-                n = (n ^ (n >> 13)) * 1274126177;
-                return ((n ^ (n >> 16)) >>> 0) / 4294967295;
-            }
-            function smoothNoise(x, y) {
-                const xi = Math.floor(x), yi = Math.floor(y);
-                const xf = x - xi, yf = y - yi;
-                const n00 = hash(xi, yi), n10 = hash(xi+1, yi);
-                const n01 = hash(xi, yi+1), n11 = hash(xi+1, yi+1);
-                const sx = xf*xf*(3-2*xf), sy = yf*yf*(3-2*yf);
-                return (n00*(1-sx) + n10*sx)*(1-sy) + (n01*(1-sx) + n11*sx)*sy;
-            }
-            function fbm(x, y, oct=4) {
-                let a=0, amp=0.5, freq=1.0;
-                for (let i=0;i<oct;i++) { a += smoothNoise(x*freq, y*freq) * amp; freq *= 2.01; amp *= 0.55; }
-                return a;
-            }
-            
-            function createFlameEffect(time) {
-                const t = time * 0.001;
-                const flameMask = new Float32Array(cols * rows).fill(0);
-                const cx = cols/2, cy = rows*0.75;
-                for (let y=0; y<rows; y++) {
-                    for (let x=0; x<cols; x++) {
-                        const dx = x - cx, dy = y - cy;
-                        const dist = Math.sqrt(dx*dx + dy*dy);
-                        const angle = Math.atan2(dy, dx);
-                        const wave = Math.sin(angle * 3 + t * 2) * 0.3;
-                        flameMask[idx(x,y)] = Math.max(0, 1 - (dist / (rows * 0.4)) + wave);
-                    }
-                }
-                return flameMask;
-            }
-            
-            function getFlameColorByValue(v) {
-                const flameColors = [[255, 255, 204], [255, 215, 0], [255, 165, 0], [255, 64, 0]];
-                const index = Math.min(flameColors.length - 1, Math.floor(v * flameColors.length));
-                return flameColors[index];
-            }
-            
-            function draw(time) {
-                if (paused) { requestAnimationFrame(draw); return; }
-                const colors = getThemeColors();
-                const t = (time - t0) * speedMul;
-                const flameMask = createFlameEffect(t);
-                for (let x=0; x<cols; x++) field[idx(x, rows-1)] = 0.6 + 0.4*fbm(x*0.07, t*0.0009, 3);
-                for (let y=0; y<rows-1; y++) {
-                    for (let x=0; x<cols; x++) {
-                        const j = Math.floor((smoothNoise(x*0.17, (t*0.001 + y*0.05))*2-1)*2);
-                        const sx = Math.min(cols-1, Math.max(0, x + j));
-                        const sy = Math.min(rows-1, y+1);
-                        nextField[idx(x,y)] = (field[idx(sx, sy)]*2 + field[idx(Math.max(0,x-1), sy)] + field[idx(Math.min(cols-1,x+1), sy)]) * 0.25 * 0.98;
-                    }
-                }
-                [field, nextField] = [nextField, field];
-                for (let y=0; y<rows; y++) { for (let x=0; x<cols; x++) field[idx(x,y)] = Math.min(1, field[idx(x,y)] + flameMask[idx(x,y)] * 0.7); }
-                ctx.fillStyle = colors.bg;
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                ctx.save();
-                ctx.translate((canvas.width - cols*charW)/2, (canvas.height - rows*charH)/2);
-                ctx.font = `${Math.floor(charH*0.95)}px monospace`;
-                ctx.textBaseline = 'top';
-                for (let y=0; y<rows; y++) {
-                    for (let x=0; x<cols; x++) {
-                        const v = field[idx(x,y)];
-                        const ch = RAMP[Math.min(RAMP.length-1, Math.max(0, Math.floor(v * (RAMP.length-1))))];
-                        if (ch === ' ') continue;
-                        const [r, g, b] = getFlameColorByValue(v);
-                        ctx.fillStyle = `rgba(${r},${g},${b},0.85)`;
-                        ctx.fillText(ch, x*charW, y*charH);
-                    }
-                }
-                ctx.restore();
-                requestAnimationFrame(draw);
-            }
-            window.addEventListener('resize', resize, {passive:true});
-            resize();
-            requestAnimationFrame(draw);
-        })();
     </script>
 </body>
 </html>
