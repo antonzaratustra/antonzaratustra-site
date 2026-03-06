@@ -13,6 +13,7 @@
             --color-background: #0a0a0f;
             --color-background-secondary: #1a1a2e;
             --color-text-default: #e6e6f0;
+            --color-accent: #FFA500;
         }
         * { box-sizing: border-box; }
         html, body {
@@ -20,7 +21,7 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--color-background);
             overflow-x: hidden;
-            overflow-y: auto; /* Включаем скролл */
+            overflow-y: auto;
         }
         
         /* Light theme */
@@ -39,13 +40,12 @@
         
         body {
             background-color: var(--color-background);
-            color: var(--fg-dark);
+            color: var(--color-text-default);
         }
         
-        #wrap { position: fixed; inset: 0; z-index: 1; }
+        #wrap { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
         #c { width: 100vw; height: 100vh; display: block; }
         
-        /* Added styles for theme and language toggle */
         .top-controls {
             position: fixed;
             top: 10px;
@@ -55,8 +55,7 @@
             z-index: 100;
         }
         
-        /* ThemeToggle */
-        .ThemeToggle {
+        .ThemeToggle, .LanguageToggle {
             appearance: none;
             width: 62px;
             height: 32px;
@@ -89,33 +88,14 @@
             transition: all cubic-bezier(0.3, 1.5, 0.7, 1) 0.3s;
         }
 
-        .ThemeToggle:checked {
-            background-color: var(--color-background-secondary);
-            border-color: var(--color-background);
-        }
-
         .ThemeToggle:checked::before {
             left: 32px;
             content: "☀️";
-            background: var(--color-background);
         }
         
-        /* Language Toggle */
         .LanguageToggle {
-            appearance: none;
-            width: 62px;
-            height: 32px;
-            display: inline-block;
-            position: relative;
-            border-radius: 50px;
-            overflow: hidden;
-            outline: none;
-            border: none;
-            cursor: pointer;
-            background: #FFA500; /* Orange background */
-            transition: background-color ease 0.3s;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-            color: #333; /* Dark text for better contrast */
+            background: var(--color-accent);
+            color: #333;
             font-weight: bold;
             text-transform: uppercase;
         }
@@ -134,22 +114,14 @@
             text-align: center;
             line-height: 24px;
             font-size: 12px;
-            color: #333; /* Dark text for better contrast */
             transition: all cubic-bezier(0.3, 1.5, 0.7, 1) 0.3s;
-        }
-
-        .LanguageToggle:checked {
-            background-color: #FFA500; /* Orange background */
         }
 
         .LanguageToggle:checked::before {
             left: 32px;
             content: "RU";
-            background: white;
-            color: #333; /* Dark text for better contrast */
         }
         
-        /* Center content styles - modified for scrolling */
         .center-content {
             position: relative;
             min-height: 100vh;
@@ -160,21 +132,13 @@
             z-index: 5;
             padding: 40px 20px;
             width: 100%;
-            box-sizing: border-box;
             text-align: center;
         }
         
-        /* Hide the matrix subtitle */
-        .matrix-text {
-            display: none;
-        }
-        
-        /* Custom heading for Zaratustra in 3x3 grid */
         .custom-heading {
             display: grid;
             grid-template-columns: repeat(3, 150px);
             grid-template-rows: repeat(3, 150px);
-            gap: 0;
             width: 450px;
             height: 450px;
             margin: 0 auto 20px;
@@ -184,12 +148,11 @@
             position: relative;
         }
         
-        /* Square border - centered on the T letter (center of grid) */
         .square-border {
             position: absolute;
             width: 450px;
             height: 450px;
-            border: 21px solid var(--fg-dark);
+            border: 21px solid var(--color-text-default);
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
@@ -210,14 +173,13 @@
             top: 330px;
         }
         
-        /* Logo styling - 3x larger with fade-in animation */
         .center-logo {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) scale(0.95);
             z-index: 2;
-            width: 650px; /* 3x larger than previous 200px */
+            width: 650px;
             height: auto;
             pointer-events: none;
             opacity: 0;
@@ -225,66 +187,137 @@
         }
 
         @keyframes logoFadeIn {
-            0% {
-                opacity: 0;
-                transform: translate(-50%, -50%) scale(0.95);
-            }
-            100% {
-                opacity: 1;
-                transform: translate(-50%, -50%) scale(1);
-            }
-        }
-        
-        .center-content h1 {
-            margin: 0 0 20px 0;
-            font-size: 6rem;
-            font-weight: 700;
-            letter-spacing: -0.03em;
-        }
-        
-        /* Theme-specific text colors - matching background color */
-        body.dark-theme .center-content h1 {
-            color: var(--fg-dark);
-        }
-        
-        body.light-theme .center-content h1 {
-            color: var(--fg-light);
-        }
-        
-        /* Responsive font sizes */
-        @media (max-width: 768px) {
-            .center-content h1 {
-                font-size: 2.5rem;
-            }
-            .custom-heading {
-                width: 300px;
-                height: 300px;
-                grid-template-columns: repeat(3, 100px);
-                grid-template-rows: repeat(3, 100px);
-                font-size: 3rem;
-            }
-            .square-border {
-                width: 300px;
-                height: 300px;
-                border-width: 14px;
-            }
-            .center-logo {
-                width: 400px;
-            }
-            .custom-heading .out-of-box {
-                left: 340px;
-                top: 220px;
-            }
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.95); }
+            100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
         }
 
-        /* Footer styling - at the bottom of the page */
+        /* --- Mentorist Section --- */
+        .mentorist-section {
+            position: relative;
+            z-index: 5;
+            padding: 100px 60px;
+            width: 95%;
+            max-width: 1200px;
+            margin: 60px auto;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 60px;
+            align-items: center;
+            background: rgba(5, 5, 10, 0.75); /* Темный фон для читаемости */
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        .mentorist-info { text-align: left; }
+        .mentorist-info .badge {
+            display: inline-block;
+            padding: 6px 14px;
+            background: rgba(255, 165, 0, 0.15);
+            color: var(--color-accent);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-bottom: 24px;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+        }
+
+        .mentorist-info h2 {
+            font-size: 4rem;
+            margin: 0 0 24px 0;
+            color: var(--color-accent);
+            line-height: 1;
+            font-weight: 800;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+
+        .mentorist-info p {
+            font-size: 1.4rem;
+            opacity: 1;
+            margin-bottom: 48px;
+            line-height: 1.4;
+            color: #fff;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.8); /* Тень для текста */
+        }
+
+        .mentorist-features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 32px;
+            border-radius: 24px;
+            transition: all 0.4s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--color-accent);
+            background: rgba(255, 165, 0, 0.03);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .feature-card h3 {
+            font-size: 1.2rem;
+            margin: 0 0 12px 0;
+            color: var(--color-accent);
+            text-shadow: 0 2px 10px rgba(0,0,0,0.4);
+        }
+
+        .feature-card p {
+            font-size: 0.95rem;
+            margin: 0;
+            opacity: 0.9; /* Сделал текст светлее */
+            color: #fff;
+            line-height: 1.5;
+            text-shadow: 0 1px 5px rgba(0,0,0,0.5);
+        }
+
+        .btn-mentorist {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 36px;
+            background-color: var(--color-accent);
+            color: #000;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 50px;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+
+        .btn-mentorist:hover {
+            transform: scale(1.05);
+            background-color: #ffb833;
+            box-shadow: 0 0 20px rgba(255, 165, 0, 0.4);
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .mentorist-section { grid-template-columns: 1fr; text-align: center; gap: 50px; padding: 80px 20px; }
+            .mentorist-info { text-align: center; }
+            .mentorist-info h2 { font-size: 2.5rem; }
+            .custom-heading { width: 300px; height: 300px; grid-template-columns: repeat(3, 100px); grid-template-rows: repeat(3, 100px); font-size: 3rem; }
+            .square-border { width: 300px; height: 300px; border-width: 14px; }
+            .center-logo { width: 400px; }
+            .custom-heading .out-of-box { left: 340px; top: 220px; }
+        }
+
         .site-footer {
-            background-color: #050509; /* Очень темный фон */
+            background-color: #050509;
             width: 100%;
-            padding: 60px 0;
+            padding: 80px 0;
             display: flex;
             justify-content: center;
-            gap: 30px;
+            gap: 40px;
             z-index: 10;
             border-top: 1px solid rgba(255,255,255,0.03);
             position: relative;
@@ -293,17 +326,14 @@
         .site-footer a {
             color: var(--color-text-default);
             text-decoration: none;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             letter-spacing: 0.1em;
             text-transform: uppercase;
-            opacity: 0.5;
-            transition: opacity 0.3s, color 0.3s;
+            opacity: 0.4;
+            transition: all 0.3s;
         }
 
-        .site-footer a:hover {
-            opacity: 1;
-            color: #FFA500;
-        }
+        .site-footer a:hover { opacity: 1; color: var(--color-accent); }
     </style>
 </head>
 <body class="dark">
@@ -311,13 +341,11 @@
         <canvas id="c"></canvas>
     </div>
     
-    <!-- Top controls for theme and language toggle -->
     <div class="top-controls">
         <input id="themeSwitcher" class="ThemeToggle" type="checkbox">
         <input id="languageSwitcher" class="LanguageToggle" type="checkbox">
     </div>
     
-    <!-- Center content -->
     <div class="center-content">
         <div class="custom-heading">
             <div class="letter">Z</div>
@@ -336,14 +364,58 @@
         <div class="matrix-text" data-en="Matrix has you..." data-ru="Ты увяз в матрице...">Matrix has you...</div>
     </div>
 
-    <!-- Footer with legal links -->
+    <!-- Mentorist Section -->
+    <section class="mentorist-section">
+        <div class="mentorist-info">
+            <div class="badge">Application</div>
+            <h2 data-en="Mentorist" data-ru="Mentorist">Mentorist</h2>
+            <p data-en="Personal strategy that collects goals, balance, and support into one living contour." 
+               data-ru="Личная стратегия, которая собирает цели, баланс и поддержку в один живой контур.">
+                Personal strategy that collects goals, balance, and support into one living contour.
+            </p>
+            <a href="/mentorist" class="btn-mentorist">
+                <span data-en="Launch App" data-ru="Запустить приложение">Launch App</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </a>
+        </div>
+        <div class="mentorist-features">
+            <div class="feature-card">
+                <h3 data-en="Balance of Spheres" data-ru="Баланс сфер">Balance of Spheres</h3>
+                <p data-en="Track and visualize your life balance across different areas in one screen." 
+                   data-ru="Отслеживайте и визуализируйте баланс жизни по разным сферам на одном экране.">
+                    Track and visualize your life balance across different areas in one screen.
+                </p>
+            </div>
+            <div class="feature-card">
+                <h3 data-en="Active Contours" data-ru="Активные контуры">Active Contours</h3>
+                <p data-en="Manage energies and goals through a unified system of interconnected elements." 
+                   data-ru="Управляйте энергиями и целями через единую систему взаимосвязанных элементов.">
+                    Manage energies and goals through a unified system of interconnected elements.
+                </p>
+            </div>
+            <div class="feature-card">
+                <h3 data-en="Weekly Rhythm" data-ru="Недельный ритм">Weekly Rhythm</h3>
+                <p data-en="Set your pace and keep focus with built-in planning and notification system." 
+                   data-ru="Задавайте свой темп и сохраняйте фокус с помощью встроенной системы планирования.">
+                    Set your pace and keep focus with built-in planning and notification system.
+                </p>
+            </div>
+            <div class="feature-card">
+                <h3 data-en="Support Network" data-ru="Сеть поддержки">Support Network</h3>
+                <p data-en="Connect with mentors and peers to accelerate your personal growth." 
+                   data-ru="Общайтесь с наставниками и единомышленниками для ускорения вашего роста.">
+                    Connect with mentors and peers to accelerate your personal growth.
+                </p>
+            </div>
+        </div>
+    </section>
+
     <footer class="site-footer">
         <a href="/privacy.html" data-en="Privacy Policy" data-ru="Политика конфиденциальности">Privacy Policy</a>
         <a href="/terms.html" data-en="Terms of Service" data-ru="Условия использования">Terms of Service</a>
     </footer>
 
     <script>
-        // Theme and language toggle functionality
         document.addEventListener('DOMContentLoaded', function() {
             const themeToggle = document.getElementById('themeSwitcher');
             const languageToggle = document.getElementById('languageSwitcher');
@@ -351,7 +423,6 @@
             let isDarkTheme = true;
             let currentLang = 'en';
 
-            // Function to switch language
             function switchLanguage(lang) {
                 currentLang = lang;
                 document.querySelectorAll('[data-en], [data-ru]').forEach(function(el) {
@@ -359,7 +430,6 @@
                 });
             }
 
-            // Function to toggle theme
             function toggleTheme() {
                 if (isDarkTheme) {
                     body.classList.remove('dark');
@@ -376,44 +446,27 @@
             }
 
             themeToggle.addEventListener('change', toggleTheme);
-
             languageToggle.addEventListener('change', function() {
-                switchLanguage(currentLang === 'en' ? 'ru' : 'en');
+                switchLanguage(this.checked ? 'ru' : 'en');
             });
-
-            // Initial language setup
             switchLanguage('en');
         });
 
-        // ASCII Phoenix animation code
         (() => {
             const canvas = document.getElementById('c');
             const ctx = canvas.getContext('2d');
             const body = document.body;
             let paused = false;
-
-            const RAMP = ' .,:;i1tfLC08@#'; // ASCII символы
+            const RAMP = ' .,:;i1tfLC08@#';
             let charW = 10, charH = 14, cols = 0, rows = 0;
             let t0 = performance.now();
             let loopLen = 9000;
-            let baseHue = 18, hueShift = 0, speedMul = 1.0;
-
-            let field, nextField, phoenixMask, phoenixDetailMask;
+            let speedMul = 1.0;
+            let field, nextField;
             const DPR = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
 
-            // Function to get current theme colors
             function getThemeColors() {
-                if (body.classList.contains('light')) {
-                    return {
-                        bg: '#f0f0f5',
-                        fg: '#f0f0f5'
-                    };
-                } else {
-                    return {
-                        bg: '#0a0a0f',
-                        fg: '#0a0a0f'
-                    };
-                }
+                return body.classList.contains('light') ? { bg: '#f0f0f5' } : { bg: '#0a0a0f' };
             }
 
             function resize() {
@@ -425,211 +478,68 @@
                 rows = Math.floor(canvas.height / charH);
                 field = new Float32Array(cols * rows).fill(0);
                 nextField = new Float32Array(cols * rows).fill(0);
-                phoenixMask = new Float32Array(cols * rows).fill(0);
-                phoenixDetailMask = new Float32Array(cols * rows).fill(0);
-                buildPhoenixMask();
             }
             
             function idx(x,y){ return y*cols + x; }
-            
             function hash(x, y) {
                 let n = x * 374761393 + y * 668265263;
                 n = (n ^ (n >> 13)) * 1274126177;
                 return ((n ^ (n >> 16)) >>> 0) / 4294967295;
             }
-            
             function smoothNoise(x, y) {
                 const xi = Math.floor(x), yi = Math.floor(y);
                 const xf = x - xi, yf = y - yi;
                 const n00 = hash(xi, yi), n10 = hash(xi+1, yi);
                 const n01 = hash(xi, yi+1), n11 = hash(xi+1, yi+1);
                 const sx = xf*xf*(3-2*xf), sy = yf*yf*(3-2*yf);
-                const nx0 = n00*(1-sx) + n10*sx;
-                const nx1 = n01*(1-sx) + n11*sx;
-                return nx0*(1-sy) + nx1*sy;
+                return (n00*(1-sx) + n10*sx)*(1-sy) + (n01*(1-sx) + n11*sx)*sy;
             }
-            
             function fbm(x, y, oct=4) {
                 let a=0, amp=0.5, freq=1.0;
-                for (let i=0;i<oct;i++) {
-                    a += smoothNoise(x*freq, y*freq) * amp;
-                    freq *= 2.01; amp *= 0.55;
-                }
+                for (let i=0;i<oct;i++) { a += smoothNoise(x*freq, y*freq) * amp; freq *= 2.01; amp *= 0.55; }
                 return a;
             }
             
-            function buildPhoenixMask() {
-                phoenixMask.fill(0);
-                phoenixDetailMask.fill(0);
-                const cx = cols/2, cy = rows*0.62;
-                const scale = Math.min(cols, rows) * 0.45;
-                for (let y=0; y<rows; y++) {
-                    for (let x=0; x<cols; x++) {
-                        const nx = (x - cx) / scale;
-                        const ny = (y - cy) / scale;
-                        const r = Math.hypot(nx*0.9, ny*1.2);
-                        const body = Math.max(0, 1 - r*r*1.8 - (ny*0.6+0.15));
-                        const wingL = Math.max(0, 1 - (Math.hypot((nx+0.9)*1.1, (ny+0.05)*1.9)*1.6));
-                        const wingR = Math.max(0, 1 - (Math.hypot((nx-0.9)*1.1, (ny+0.05)*1.9)*1.6));
-                        const tail = Math.max(0, 1 - Math.hypot(nx*0.7, (ny-0.7)*2.2)*1.8);
-                        const head = Math.max(0, 1 - Math.hypot((nx)*2.0, (ny+0.25)*3.4)*2.2);
-                        const beak = Math.max(0, 1 - Math.hypot((nx-0.18)*8.5, (ny+0.23)*10.0)*1.3);
-                        let m = Math.max(body*1.05, wingL*0.95, wingR*0.95, tail*0.8, head*1.1, beak*0.8);
-                        m = Math.min(1, Math.max(0, m));
-                        const d = Math.pow(fbm(nx*3+5.4, ny*3-2.7, 3), 1.6);
-                        const feather = m * (0.35 + 0.65*d);
-                        phoenixMask[idx(x,y)] = m;
-                        phoenixDetailMask[idx(x,y)] = feather;
-                    }
-                }
-            }
-            
-            // New function to create flame tongue effect
             function createFlameEffect(time) {
                 const t = time * 0.001;
                 const flameMask = new Float32Array(cols * rows).fill(0);
-                const cx = cols/2, cy = rows*0.75; // Flame origin at bottom center
-                
+                const cx = cols/2, cy = rows*0.75;
                 for (let y=0; y<rows; y++) {
                     for (let x=0; x<cols; x++) {
-                        // Distance from bottom center
-                        const dx = x - cx;
-                        const dy = y - cy;
-                        const distance = Math.sqrt(dx*dx + dy*dy);
-                        
-                        // Create multiple flame tongues with random offsets
-                        let flameIntensity = 0;
-                        
-                        // Main central flame
+                        const dx = x - cx, dy = y - cy;
+                        const dist = Math.sqrt(dx*dx + dy*dy);
                         const angle = Math.atan2(dy, dx);
                         const wave = Math.sin(angle * 3 + t * 2) * 0.3;
-                        const flameShape = Math.max(0, 1 - (distance / (rows * 0.4)) + wave);
-                        flameIntensity = Math.max(flameIntensity, flameShape * 0.8);
-                        
-                        // Secondary flames
-                        for (let i = 0; i < 5; i++) {
-                            const offsetX = Math.sin(t * 0.5 + i) * 20;
-                            const offsetY = Math.cos(t * 0.7 + i) * 10;
-                            const dx2 = x - (cx + offsetX);
-                            const dy2 = y - (cy + offsetY);
-                            const dist2 = Math.sqrt(dx2*dx2 + dy2*dy2);
-                            const angle2 = Math.atan2(dy2, dx2);
-                            const wave2 = Math.sin(angle2 * 2 + t * 3 + i) * 0.2;
-                            const flameShape2 = Math.max(0, 1 - (dist2 / (rows * 0.3)) + wave2);
-                            flameIntensity = Math.max(flameIntensity, flameShape2 * 0.6);
-                        }
-                        
-                        flameMask[idx(x,y)] = Math.min(1, flameIntensity);
+                        flameMask[idx(x,y)] = Math.max(0, 1 - (dist / (rows * 0.4)) + wave);
                     }
                 }
                 return flameMask;
             }
             
-            // Function to interpolate between two colors
-            function interpolateColor(color1, color2, factor) {
-                const result = [];
-                for (let i = 0; i < 3; i++) {
-                    result.push(Math.round(color1[i] + (color2[i] - color1[i]) * factor));
-                }
-                return result;
-            }
-            
-            // Function to get a random flame color from our extended palette
-            function getRandomFlameColor() {
-                // Extended flame color palette with more vibrant colors
-                const flameColors = [
-                    [255, 255, 204],  // Light Yellow (#FFFFCC)
-                    [255, 242, 153],  // Yellow (#FFF299)
-                    [255, 229, 102],  // Golden Yellow (#FFE566)
-                    [255, 215, 0],    // Yellow (#FFD700)
-                    [255, 204, 0],    // Yellow-Orange (#FFCC00)
-                    [255, 191, 0],    // Golden (#FFBF00)
-                    [255, 178, 0],    // Orange-Yellow (#FFB200)
-                    [255, 165, 0],    // Orange (#FFA500)
-                    [255, 153, 0],    // Slightly Darker Orange (#FF9900)
-                    [255, 140, 0],    // Dark Orange (#FF8C00)
-                    [255, 128, 0],    // Bright Orange (#FF8000)
-                    [255, 115, 0],    // Deep Orange (#FF7300)
-                    [255, 102, 0],    // Vibrant Orange (#FF6600)
-                    [255, 90, 0],     // Bright Red-Orange (#FF5A00)
-                    [255, 77, 0],     // Intense Orange (#FF4D00)
-                    [255, 64, 0]      // Deep Red-Orange (#FF4000)
-                ];
-                
-                // Return a random color from our palette
-                const randomIndex = Math.floor(Math.random() * flameColors.length);
-                return flameColors[randomIndex];
-            }
-            
-            // Function to get flame color based on value (intensity) with smoother transitions
             function getFlameColorByValue(v) {
-                // Extended flame color palette with more vibrant colors
-                const flameColors = [
-                    [255, 255, 204],  // Light Yellow (#FFFFCC)
-                    [255, 242, 153],  // Yellow (#FFF299)
-                    [255, 229, 102],  // Golden Yellow (#FFE566)
-                    [255, 215, 0],    // Yellow (#FFD700)
-                    [255, 204, 0],    // Yellow-Orange (#FFCC00)
-                    [255, 191, 0],    // Golden (#FFBF00)
-                    [255, 178, 0],    // Orange-Yellow (#FFB200)
-                    [255, 165, 0],    // Orange (#FFA500)
-                    [255, 153, 0],    // Slightly Darker Orange (#FF9900)
-                    [255, 140, 0],    // Dark Orange (#FF8C00)
-                    [255, 128, 0],    // Bright Orange (#FF8000)
-                    [255, 115, 0],    // Deep Orange (#FF7300)
-                    [255, 102, 0],    // Vibrant Orange (#FF6600)
-                    [255, 90, 0],     // Bright Red-Orange (#FF5A00)
-                    [255, 77, 0],     // Intense Orange (#FF4D00)
-                    [255, 64, 0]      // Deep Red-Orange (#FF4000)
-                ];
-                
-                // Map the value (0-1) to a position in our extended flame gradient
+                const flameColors = [[255, 255, 204], [255, 215, 0], [255, 165, 0], [255, 64, 0]];
                 const index = Math.min(flameColors.length - 1, Math.floor(v * flameColors.length));
                 return flameColors[index];
             }
             
             function draw(time) {
                 if (paused) { requestAnimationFrame(draw); return; }
-                
-                // Get current theme colors
                 const colors = getThemeColors();
-                
                 const t = (time - t0) * speedMul;
-                const phase = (t % loopLen) / loopLen;
-                
-                // Create flame effect instead of phoenix
                 const flameMask = createFlameEffect(t);
-                
-                // Apply noise to flame for more realistic movement
-                for (let x=0; x<cols; x++) {
-                    const n = fbm(x*0.07, t*0.0009, 3);
-                    field[idx(x, rows-1)] = 0.6 + 0.4*n;
-                }
+                for (let x=0; x<cols; x++) field[idx(x, rows-1)] = 0.6 + 0.4*fbm(x*0.07, t*0.0009, 3);
                 for (let y=0; y<rows-1; y++) {
                     for (let x=0; x<cols; x++) {
                         const j = Math.floor((smoothNoise(x*0.17, (t*0.001 + y*0.05))*2-1)*2);
                         const sx = Math.min(cols-1, Math.max(0, x + j));
                         const sy = Math.min(rows-1, y+1);
-                        const v = field[idx(sx, sy)];
-                        const l = field[idx(Math.max(0,x-1), sy)];
-                        const r = field[idx(Math.min(cols-1,x+1), sy)];
-                        nextField[idx(x,y)] = (v*2 + l + r) * 0.25 * 0.98;
+                        nextField[idx(x,y)] = (field[idx(sx, sy)]*2 + field[idx(Math.max(0,x-1), sy)] + field[idx(Math.min(cols-1,x+1), sy)]) * 0.25 * 0.98;
                     }
                 }
                 [field, nextField] = [nextField, field];
-                
-                // Apply flame mask to field
-                for (let y=0; y<rows; y++) {
-                    for (let x=0; x<cols; x++) {
-                        const flameIntensity = flameMask[idx(x,y)];
-                        field[idx(x,y)] = Math.min(1, field[idx(x,y)] + flameIntensity * 0.7);
-                    }
-                }
-                
-                // Clear canvas with theme background color
+                for (let y=0; y<rows; y++) { for (let x=0; x<cols; x++) field[idx(x,y)] = Math.min(1, field[idx(x,y)] + flameMask[idx(x,y)] * 0.7); }
                 ctx.fillStyle = colors.bg;
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
-                
                 ctx.save();
                 ctx.translate((canvas.width - cols*charW)/2, (canvas.height - rows*charH)/2);
                 ctx.font = `${Math.floor(charH*0.95)}px monospace`;
@@ -637,32 +547,16 @@
                 for (let y=0; y<rows; y++) {
                     for (let x=0; x<cols; x++) {
                         const v = field[idx(x,y)];
-                        const rampIndex = Math.min(RAMP.length-1, Math.max(0, Math.floor(v * (RAMP.length-1))));
-                        const ch = RAMP[rampIndex];
+                        const ch = RAMP[Math.min(RAMP.length-1, Math.max(0, Math.floor(v * (RAMP.length-1))))];
                         if (ch === ' ') continue;
-                        
-                        // Use flame colors instead of the original HSV-based coloring
                         const [r, g, b] = getFlameColorByValue(v);
-                        ctx.fillStyle = `rgba(${r},${g},${b},${0.85})`;
+                        ctx.fillStyle = `rgba(${r},${g},${b},0.85)`;
                         ctx.fillText(ch, x*charW, y*charH);
                     }
                 }
                 ctx.restore();
                 requestAnimationFrame(draw);
             }
-            
-            // Watch for theme changes
-            const observer = new MutationObserver(function(mutations) {
-                mutations.forEach(function(mutation) {
-                    if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-                        // Redraw with new theme colors
-                        // The draw function will automatically pick up the new colors
-                    }
-                });
-            });
-            
-            observer.observe(body, { attributes: true });
-            
             window.addEventListener('resize', resize, {passive:true});
             resize();
             requestAnimationFrame(draw);
