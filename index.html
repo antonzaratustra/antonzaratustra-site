@@ -218,16 +218,29 @@
             top: 330px;
         }
         
-        /* Logo styling - 3x larger */
+        /* Logo styling - 3x larger with fade-in animation */
         .center-logo {
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%) scale(0.95);
             z-index: 2;
             width: 650px; /* 3x larger than previous 200px */
             height: auto;
             pointer-events: none;
+            opacity: 0;
+            animation: logoFadeIn 5s ease-out 1.5s forwards;
+        }
+
+        @keyframes logoFadeIn {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.95);
+            }
+            100% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
         }
         
         .center-content h1 {
