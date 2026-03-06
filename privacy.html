@@ -3,164 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacy Policy — Anton Zaratustra / Mentorist</title>
+    <title>Menorist AI Tracker — Privacy Policy</title>
     <style>
-        body {
-            background-color: #0a0a0f;
-            color: #e6e6f0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 80px 20px 40px;
-            display: flex;
-            justify-content: center;
-        }
-        .content {
-            max-width: 800px;
-            width: 100%;
-        }
-        h1 { color: #FFA500; border-bottom: 1px solid #333; padding-bottom: 10px; }
-        h2 { margin-top: 30px; color: #fff; }
-        p { margin-bottom: 15px; opacity: 0.9; }
-        ul { margin-bottom: 20px; opacity: 0.9; }
-        li { margin-bottom: 10px; }
-        .back-link {
-            display: inline-block;
-            margin-bottom: 20px;
-            color: #FFA500;
-            text-decoration: none;
-            font-size: 0.9rem;
-        }
-        .back-link:hover { text-decoration: underline; }
-        
-        /* Language Toggle Styles matching index.html */
-        .top-controls {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 100;
-        }
-        .LanguageToggle {
-            appearance: none;
-            width: 62px;
-            height: 32px;
-            display: inline-block;
-            position: relative;
-            border-radius: 50px;
-            overflow: hidden;
-            outline: none;
-            border: none;
-            cursor: pointer;
-            background: #FFA500;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-            transition: background-color 0.3s;
-        }
-        .LanguageToggle::before {
-            content: "EN";
-            display: block;
-            position: absolute;
-            z-index: 2;
-            width: 24px;
-            height: 24px;
-            background: white;
-            left: 4px;
-            top: 4px;
-            border-radius: 50%;
-            text-align: center;
-            line-height: 24px;
-            font-size: 12px;
-            color: #333;
-            font-weight: bold;
-            transition: all cubic-bezier(0.3, 1.5, 0.7, 1) 0.3s;
-        }
-        .LanguageToggle:checked::before {
-            left: 32px;
-            content: "RU";
-        }
-
-        footer { margin-top: 50px; font-size: 0.8rem; opacity: 0.5; border-top: 1px solid #333; padding-top: 20px; }
+        body { background:#0a0a0f; color:#e6e6f0; font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; margin:0; padding:80px 20px 40px; display:flex; justify-content:center; }
+        .content { max-width:850px; width:100%; }
+        h1 { color:#ffa500; margin-top:0; }
+        h2 { color:#fff; margin-top:28px; }
+        p, li { color:#c8c8d5; line-height:1.65; }
+        .top-controls { position:fixed; top:20px; right:20px; }
+        .LanguageToggle { appearance:none; width:62px; height:32px; border-radius:50px; border:0; background:#ffa500; position:relative; cursor:pointer; }
+        .LanguageToggle::before { content:"EN"; position:absolute; left:4px; top:4px; width:24px; height:24px; border-radius:50%; background:#fff; color:#333; font-size:12px; text-align:center; line-height:24px; font-weight:700; transition:all .25s ease; }
+        .LanguageToggle:checked::before { left:34px; content:"RU"; }
+        a { color:#ffa500; }
+        .back-link { color:#ffa500; text-decoration:none; }
+        footer { margin-top:40px; border-top:1px solid #2b2b36; padding-top:16px; color:#9e9eb0; font-size:.9rem; }
     </style>
 </head>
 <body>
-    <div class="top-controls">
-        <input id="languageSwitcher" class="LanguageToggle" type="checkbox">
-    </div>
-
+    <div class="top-controls"><input id="languageSwitcher" class="LanguageToggle" type="checkbox" aria-label="Switch language"></div>
     <div class="content">
-        <a href="/" class="back-link" data-en="← Back to home" data-ru="← На главную">← Back to home</a>
-        
-        <h1 data-en="Privacy Policy" data-ru="Политика конфиденциальности">Privacy Policy</h1>
-        
-        <p><span data-en="Last updated: March 6, 2026" data-ru="Последнее обновление: 6 марта 2026 г.">Last updated: March 6, 2026</span></p>
+        <a href="/" class="back-link" data-en="← Back to Menorist AI Tracker homepage" data-ru="← На главную Menorist AI Tracker">← Back to Menorist AI Tracker homepage</a>
+        <h1 data-en="Menorist AI Tracker Privacy Policy" data-ru="Политика конфиденциальности Menorist AI Tracker">Menorist AI Tracker Privacy Policy</h1>
+        <p data-en="Last updated: March 6, 2026" data-ru="Последнее обновление: 6 марта 2026 г.">Last updated: March 6, 2026</p>
+        <p data-en="This policy explains how Menorist AI Tracker collects, uses, and protects personal data when you use the application and sign in with Google OAuth." data-ru="В этой политике объясняется, как Menorist AI Tracker собирает, использует и защищает персональные данные при использовании приложения и входе через Google OAuth.">This policy explains how Menorist AI Tracker collects, uses, and protects personal data when you use the application and sign in with Google OAuth.</p>
 
-        <p data-en="Your privacy is important to us. This document describes how the Mentorist application (hereinafter the 'Application'), developed by Anton Zaratustra, handles your data." 
-           data-ru="Ваша конфиденциальность важна для нас. В этом документе описано, как приложение Mentorist (далее — 'Приложение'), разработанное Антоном Заратустрой, обрабатывает ваши данные.">
-            Your privacy is important to us. This document describes how the Mentorist application (hereinafter the 'Application'), developed by Anton Zaratustra, handles your data.
-        </p>
-
-        <h2 data-en="1. Information Collection" data-ru="1. Сбор информации">1. Information Collection</h2>
-        <p data-en="When using Google Sign-In (Google OAuth), the Application requests access to your email address and basic profile information (name, avatar). We use this data solely to identify you as a user and personalize the interface."
-           data-ru="При использовании входа через Google (Google OAuth), Приложение запрашивает доступ к вашему адресу электронной почты и базовой информации профиля (имя, аватар). Мы используем эти данные исключительно для идентификации вас как пользователя и персонализации интерфейса.">
-            When using Google Sign-In (Google OAuth), the Application requests access to your email address and basic profile information (name, avatar). We use this data solely to identify you as a user and personalize the interface.
-        </p>
-
-        <h2 data-en="2. Data Usage" data-ru="2. Использование данных">2. Data Usage</h2>
-        <p data-en="We use the information collected for the following purposes:"
-           data-ru="Мы используем полученную информацию для следующих целей:">
-            We use the information collected for the following purposes:
-        </p>
+        <h2 data-en="1. Data we collect" data-ru="1. Какие данные мы собираем">1. Data we collect</h2>
         <ul>
-            <li data-en="Providing the Application's features;" data-ru="Обеспечение работы функций Приложения;">Providing the Application's features;</li>
-            <li data-en="Creating and managing your account;" data-ru="Создание и управление вашей учетной записью;">Creating and managing your account;</li>
-            <li data-en="Improving the quality of the Mentorist service." data-ru="Улучшение качества работы сервиса Mentorist.">Improving the quality of the Mentorist service.</li>
+            <li data-en="Google account email address." data-ru="Адрес электронной почты Google-аккаунта.">Google account email address.</li>
+            <li data-en="Basic profile data from Google (display name and avatar URL)." data-ru="Базовые данные профиля из Google (отображаемое имя и URL аватара).">Basic profile data from Google (display name and avatar URL).</li>
+            <li data-en="Application data you create in Menorist AI Tracker (goals, profile fields, and activity metadata)." data-ru="Данные, которые вы создаете в Menorist AI Tracker (цели, поля профиля и метаданные активности).">Application data you create in Menorist AI Tracker (goals, profile fields, and activity metadata).</li>
         </ul>
 
-        <h2 data-en="3. Third-party disclosure" data-ru="3. Передача данных третьим лицам">3. Third-party disclosure</h2>
-        <p data-en="We do not sell, trade, or otherwise transfer your personally identifiable information to outside parties. This does not include trusted third parties who assist us in operating our website or conducting our business, so long as those parties agree to keep this information confidential."
-           data-ru="Мы не продаем, не обмениваем и не передаем вашу личную информацию сторонним компаниям. Это не относится к доверенным лицам, которые помогают нам в работе сайта и ведении бизнеса, при условии, что они согласны сохранять конфиденциальность этой информации.">
-            We do not sell, trade, or otherwise transfer your personally identifiable information to outside parties. This does not include trusted third parties who assist us in operating our website or conducting our business, so long as those parties agree to keep this information confidential.
-        </p>
+        <h2 data-en="2. Why we use data" data-ru="2. Для чего мы используем данные">2. Why we use data</h2>
+        <ul>
+            <li data-en="To authenticate your account and keep you signed in." data-ru="Для аутентификации аккаунта и поддержания входа в систему.">To authenticate your account and keep you signed in.</li>
+            <li data-en="To provide Menorist AI Tracker core functionality (goal management, collaboration, and notifications)." data-ru="Для работы ключевых функций Menorist AI Tracker (управление целями, взаимодействие и уведомления).">To provide Menorist AI Tracker core functionality (goal management, collaboration, and notifications).</li>
+            <li data-en="To maintain security and prevent abuse." data-ru="Для обеспечения безопасности и предотвращения злоупотреблений.">To maintain security and prevent abuse.</li>
+        </ul>
 
-        <h2 data-en="4. Data Protection" data-ru="4. Защита информации">4. Data Protection</h2>
-        <p data-en="We implement a variety of security measures to maintain the safety of your personal information. Your data is contained behind secured networks and is only accessible by a limited number of persons who have special access rights to such systems."
-           data-ru="Мы внедряем ряд мер безопасности для обеспечения сохранности вашей личной информации. Ваши данные хранятся в защищенных сетях и доступны только ограниченному числу лиц, имеющих особые права доступа к таким системам.">
-            We implement a variety of security measures to maintain the safety of your personal information. Your data is contained behind secured networks and is only accessible by a limited number of persons who have special access rights to such systems.
-        </p>
+        <h2 data-en="3. Data sharing" data-ru="3. Передача данных">3. Data sharing</h2>
+        <p data-en="Menorist AI Tracker does not sell personal data. We do not share Google user data with third parties except when required by law or necessary to provide infrastructure services." data-ru="Menorist AI Tracker не продает персональные данные. Мы не передаем данные пользователей Google третьим лицам, кроме случаев, когда это требуется законом или необходимо для работы инфраструктурных сервисов.">Menorist AI Tracker does not sell personal data. We do not share Google user data with third parties except when required by law or necessary to provide infrastructure services.</p>
 
-        <h2 data-en="5. Google API Usage" data-ru="5. Использование Google API">5. Google API Usage</h2>
-        <p data-en="Mentorist's use of information received from Google APIs will adhere to the Google API Services User Data Policy, including the Limited Use requirements."
-           data-ru="Использование Mentorist информации, полученной от Google API, будет соответствовать Политике данных пользователей сервисов Google API, включая требования по ограниченному использованию (Limited Use requirements).">
-            Mentorist's use of information received from Google APIs will adhere to the <a href="https://developers.google.com/terms/api-services-user-data-policy" style="color: #FFA500;">Google API Services User Data Policy</a>, including the Limited Use requirements.
-        </p>
+        <h2 data-en="4. Data retention and deletion" data-ru="4. Хранение и удаление данных">4. Data retention and deletion</h2>
+        <p data-en="We store data only as long as needed for service operation and legal obligations. You can request account and data deletion by contacting support." data-ru="Мы храним данные только в течение времени, необходимого для работы сервиса и выполнения требований закона. Вы можете запросить удаление аккаунта и данных, обратившись в поддержку.">We store data only as long as needed for service operation and legal obligations. You can request account and data deletion by contacting support.</p>
 
-        <h2 data-en="6. Contacts" data-ru="6. Контакты">6. Contacts</h2>
-        <p data-en="If you have any questions regarding this privacy policy, you may contact us at: antonzaratustra@gmail.com"
-           data-ru="Если у вас возникли вопросы относительно данной политики конфиденциальности, вы можете связаться с нами по адресу: antonzaratustra@gmail.com">
-            If you have any questions regarding this privacy policy, you may contact us at: <strong>antonzaratustra@gmail.com</strong>
-        </p>
+        <h2 data-en="5. Contact" data-ru="5. Контакты">5. Contact</h2>
+        <p data-en="If you have privacy questions, contact us at antonzaratustra@gmail.com." data-ru="Если у вас есть вопросы по конфиденциальности, напишите нам: antonzaratustra@gmail.com.">If you have privacy questions, contact us at antonzaratustra@gmail.com.</p>
 
         <footer>
-            © 2026 Anton Zaratustra. <span data-en="All rights reserved." data-ru="Все права защищены.">All rights reserved.</span>
+            <span data-en="Menorist AI Tracker official pages:" data-ru="Официальные страницы Menorist AI Tracker:">Menorist AI Tracker official pages:</span>
+            <a href="/">Home</a> · <a href="/terms.html">Terms</a>
         </footer>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const languageToggle = document.getElementById('languageSwitcher');
-            let currentLang = 'en';
-
             function switchLanguage(lang) {
-                currentLang = lang;
+                document.documentElement.lang = lang;
                 document.querySelectorAll('[data-en], [data-ru]').forEach(function(el) {
                     el.textContent = el.dataset[lang];
                 });
             }
-
             languageToggle.addEventListener('change', function() {
                 switchLanguage(this.checked ? 'ru' : 'en');
             });
-
-            // Set default language to English
             switchLanguage('en');
         });
     </script>
